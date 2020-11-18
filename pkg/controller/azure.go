@@ -23,6 +23,7 @@ import (
 
 	"github.com/crossplane/provider-azure/pkg/controller/cache"
 	"github.com/crossplane/provider-azure/pkg/controller/compute"
+	"github.com/crossplane/provider-azure/pkg/controller/config"
 	"github.com/crossplane/provider-azure/pkg/controller/database/cosmosdb"
 	"github.com/crossplane/provider-azure/pkg/controller/database/mysqlserver"
 	"github.com/crossplane/provider-azure/pkg/controller/database/mysqlserverfirewallrule"
@@ -40,24 +41,12 @@ import (
 // Setup Azure controllers.
 func Setup(mgr ctrl.Manager, l logging.Logger) error {
 	for _, setup := range []func(ctrl.Manager, logging.Logger) error{
-		cache.SetupRedisClaimScheduling,
-		cache.SetupRedisClaimDefaulting,
-		cache.SetupRedisClaimBinding,
+		config.Setup,
 		cache.SetupRedis,
-		compute.SetupAKSClusterClaimScheduling,
-		compute.SetupAKSClusterClaimDefaulting,
-		compute.SetupAKSClusterClaimBinding,
-		compute.SetupAKSClusterTarget,
 		compute.SetupAKSCluster,
-		mysqlserver.SetupClaimScheduling,
-		mysqlserver.SetupClaimDefaulting,
-		mysqlserver.SetupClaimBinding,
 		mysqlserver.Setup,
 		mysqlserverfirewallrule.Setup,
 		mysqlservervirtualnetworkrule.Setup,
-		postgresqlserver.SetupClaimScheduling,
-		postgresqlserver.SetupClaimDefaulting,
-		postgresqlserver.SetupClaimBinding,
 		postgresqlserver.Setup,
 		postgresqlserverfirewallrule.Setup,
 		postgresqlservervirtualnetworkrule.Setup,
@@ -66,9 +55,6 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		subnet.Setup,
 		resourcegroup.Setup,
 		account.Setup,
-		container.SetupClaimDefaulting,
-		container.SetupClaimScheduling,
-		container.SetupClaimBinding,
 		container.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
