@@ -53,7 +53,16 @@ var (
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
 
+// ApplicationSecurityGroup type metadata.
+var (
+	ApplicationSecurityGroupKind             = reflect.TypeOf(ApplicationSecurityGroup{}).Name()
+	ApplicationSecurityGroupGroupKind        = schema.GroupKind{Group: Group, Kind: ApplicationSecurityGroupKind}.String()
+	ApplicationSecurityGroupKindAPIVersion   = ApplicationSecurityGroupKind + "." + SchemeGroupVersion.String()
+	ApplicationSecurityGroupGroupVersionKind = SchemeGroupVersion.WithKind(ApplicationSecurityGroupKind)
+)
+
 func init() {
 	SchemeBuilder.Register(&VirtualNetwork{}, &VirtualNetworkList{})
 	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
+	SchemeBuilder.Register(&ApplicationSecurityGroup{}, &ApplicationSecurityGroupList{})
 }
