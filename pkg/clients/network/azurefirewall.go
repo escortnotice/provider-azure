@@ -16,7 +16,7 @@ limitations under the License.
 package network
 
 import (
-	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network"
+	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-04-01/network"
 	"github.com/crossplane/provider-azure/apis/network/v1alpha3"
 	azure "github.com/crossplane/provider-azure/pkg/clients"
 	"reflect"
