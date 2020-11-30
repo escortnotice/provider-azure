@@ -24,8 +24,8 @@ import (
 	azure "github.com/crossplane/provider-azure/pkg/clients"
 )
 
-// UpdateVirtualNetworkStatusFromAzure updates the status related to the external
-// Azure virtual network in the VirtualNetworkStatus
+// UpdateApplicationSecurityGroupStatusFromAzure updates the status related to the external
+// Azure ApplicationSecurityGroup in the ApplicationSecurityGroupStatus
 func UpdateApplicationSecurityGroupStatusFromAzure(asg *v1alpha3.ApplicationSecurityGroup, az networkmgmt.ApplicationSecurityGroup) {
 	asg.Status.State = azure.ToString(az.ProvisioningState)
 	asg.Status.ID = azure.ToString(az.ID)
@@ -34,8 +34,8 @@ func UpdateApplicationSecurityGroupStatusFromAzure(asg *v1alpha3.ApplicationSecu
 	asg.Status.Type = azure.ToString(az.Type)
 }
 
-// NewSubnetParameters returns an Azure Subnet object from a subnet spec
-func NewASGParameters(asg *v1alpha3.ApplicationSecurityGroup) networkmgmt.ApplicationSecurityGroup {
+// NewSubnetParameters returns an Azure ApplicationSecurityGroup object from a ApplicationSecurityGroup spec
+func NewApplicationSecurityGroupParameters(asg *v1alpha3.ApplicationSecurityGroup) networkmgmt.ApplicationSecurityGroup {
 	return networkmgmt.ApplicationSecurityGroup{
 		ApplicationSecurityGroupPropertiesFormat: &networkmgmt.ApplicationSecurityGroupPropertiesFormat{
 			ResourceGUID:      asg.Spec.Properties.ResourceGUID,
@@ -50,9 +50,9 @@ func NewASGParameters(asg *v1alpha3.ApplicationSecurityGroup) networkmgmt.Applic
 	}
 }
 
-// VirtualNetworkNeedsUpdate determines if a virtual network need to be updated
-func ASGNeedsUpdate(kube *v1alpha3.ApplicationSecurityGroup, az networkmgmt.ApplicationSecurityGroup) bool {
-	asg := NewASGParameters(kube)
+// ApplicationSecurityGroupNeedsUpdate determines if a ApplicationSecurityGroup need to be updated
+func ApplicationSecurityGroupNeedsUpdate(kube *v1alpha3.ApplicationSecurityGroup, az networkmgmt.ApplicationSecurityGroup) bool {
+	asg := NewApplicationSecurityGroupParameters(kube)
 
 	switch {
 

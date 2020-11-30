@@ -248,16 +248,16 @@ type ApplicationSecurityGroup struct {
 type ApplicationSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
 
-	// State of this Subnet.
+	// State of this ApplicationSecurityGroup.
 	State string `json:"state,omitempty"`
 
-	// A Message providing detail about the state of this Subnet, if any.
+	// A Message providing detail about the state of this ApplicationSecurityGroup, if any.
 	Message string `json:"message,omitempty"`
 
 	// Etag - A unique string that changes whenever the resource is updated.
 	Etag string `json:"etag,omitempty"`
 
-	// ID of this Subnet.
+	// ID of this ApplicationSecurityGroup.
 	ID string `json:"id,omitempty"`
 
 	// Purpose - A string identifying the intention of use for this subnet based

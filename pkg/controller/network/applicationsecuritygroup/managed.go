@@ -46,7 +46,7 @@ const (
 	errDeleteApplicationSecurityGroup= "cannot delete ApplicationSecurityGroup"
 )
 
-// Setup adds a controller that reconciles Subnets.
+// Setup adds a controller that reconciles ApplicationSecurityGroup.
 func Setup(mgr ctrl.Manager, l logging.Logger) error {
 	name := managed.ControllerName(v1alpha3.ApplicationSecurityGroupGroupKind)
 	return ctrl.NewControllerManagedBy(mgr).
@@ -110,7 +110,7 @@ func (e *external) Create(ctx context.Context, mg resource.Managed) (managed.Ext
 
 	s.Status.SetConditions(runtimev1alpha1.Creating())
 
-	asgnew := network.NewASGParameters(s)
+	asgnew := network.NewApplicationSecurityGroupParameters(s)
 	if _, err := e.client.CreateOrUpdate(ctx, s.Spec.ResourceGroupName,  meta.GetExternalName(s), asgnew); err != nil {
 		return managed.ExternalCreation{}, errors.Wrap(err, errCreateApplicationSecurityGroup)
 	}
@@ -129,8 +129,8 @@ func (e *external) Update(ctx context.Context, mg resource.Managed) (managed.Ext
 		return managed.ExternalUpdate{}, errors.Wrap(err, errGetApplicationSecurityGroup)
 	}
 
-	if network.ASGNeedsUpdate(s, az) {
-		asgnew := network.NewASGParameters(s)
+	if network.ApplicationSecurityGroupNeedsUpdate(s, az) {
+		asgnew := network.NewApplicationSecurityGroupParameters(s)
 		if _, err := e.client.CreateOrUpdate(ctx, s.Spec.ResourceGroupName,  meta.GetExternalName(s), asgnew); err != nil {
 			return managed.ExternalUpdate{}, errors.Wrap(err, errUpdateApplicationSecurityGroup)
 		}
