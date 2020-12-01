@@ -237,7 +237,7 @@ type ApplicationSecurityGroupPropertiesFormat struct {
 	ProvisioningState string `json:"provisioningState,omitempty"`
 }
 
-// ApplicationSecurityGroup an application security group in a resource group.
+// ApplicationSecurityGroup an application security group in a resource group used in Network Security Group.
 type ApplicationSecurityGroup struct {
 	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
 	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
@@ -699,4 +699,90 @@ type AzureFirewallNetworkRule struct {
 	DestinationAddresses []string `json:"destinationAddresses,omitempty"`
 	// DestinationPorts - List of destination ports.
 	DestinationPorts []string `json:"destinationPorts,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.state"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.location"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,azure}
+type ApplicationSecurityGroup struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   ApplicationSecurityGroupSpec   `json:"spec"`
+	Status ApplicationSecurityGroupStatus `json:"status,omitempty"`
+}
+
+// ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
+type ApplicationSecurityGroupStatus struct {
+	runtimev1alpha1.ResourceStatus `json:",inline"`
+
+	// State of this ApplicationSecurityGroup.
+	State string `json:"state,omitempty"`
+
+	// A Message providing detail about the state of this ApplicationSecurityGroup, if any.
+	Message string `json:"message,omitempty"`
+
+	// Etag - A unique string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+
+	// ID of this ApplicationSecurityGroup.
+	ID string `json:"id,omitempty"`
+
+	// Purpose - A string identifying the intention of use for this subnet based
+	// on delegations and other user-defined properties.
+	Purpose string `json:"purpose,omitempty"`
+
+	// Type of this ApplicationSecurityGroup.
+	Type string `json:"type,omitempty"`
+}
+
+// ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
+type ApplicationSecurityGroupSpec struct {
+	runtimev1alpha1.ResourceSpec `json:",inline"`
+
+	// ResourceGroupName - Name of the ApplicationSecurityGroup's resource group.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+
+	// ResourceGroupNameRef - A reference to the the ApplicationSecurityGroup's resource
+	// group.
+	ResourceGroupNameRef *runtimev1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
+
+	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
+	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+	// ID - Resource ID.
+	ID string `json:"id,omitempty"`
+	// Name - READ-ONLY; Resource name.
+	Name string `json:"name,omitempty"`
+	// Type - READ-ONLY; Resource type.
+	Type string `json:"type,omitempty"`
+	// Location - Resource location.
+	Location string `json:"location,omitempty"`
+	// Tags - Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+//  ApplicationSecurityGroupPropertiesFormat application security group properties.
+type ApplicationSecurityGroupPropertiesFormat struct {
+	// ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+	ResourceGUID *string `json:"resourceGuid,omitempty"`
+	// ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// ApplicationSecurityGroupList contains a list of ApplicationSecurityGroup items
+type ApplicationSecurityGroupList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []ApplicationSecurityGroup `json:"items"`
 }

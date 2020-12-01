@@ -67,6 +67,12 @@ var (
 	AzureFirewallGroupKind        = schema.GroupKind{Group: Group, Kind: AzureFirewallKind}.String()
 	AzureFirewallKindAPIVersion   = AzureFirewallKind + "." + SchemeGroupVersion.String()
 	AzureFirewallGroupVersionKind = SchemeGroupVersion.WithKind(AzureFirewallKind)
+// ApplicationSecurityGroup type metadata.
+var (
+	ApplicationSecurityGroupKind             = reflect.TypeOf(ApplicationSecurityGroup{}).Name()
+	ApplicationSecurityGroupGroupKind        = schema.GroupKind{Group: Group, Kind: ApplicationSecurityGroupKind}.String()
+	ApplicationSecurityGroupKindAPIVersion   = ApplicationSecurityGroupKind + "." + SchemeGroupVersion.String()
+	ApplicationSecurityGroupGroupVersionKind = SchemeGroupVersion.WithKind(ApplicationSecurityGroupKind)
 )
 
 func init() {
@@ -75,4 +81,5 @@ func init() {
 	SchemeBuilder.Register(&SecurityGroup{}, &SecurityGroupList{})
 	SchemeBuilder.Register(&SecurityRule{})
 	SchemeBuilder.Register(&AzureFirewall{}, &AzureFirewallList{})
+	SchemeBuilder.Register(&ApplicationSecurityGroup{}, &ApplicationSecurityGroupList{})
 }

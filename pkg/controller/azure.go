@@ -18,6 +18,7 @@ package controller
 
 import (
 	"github.com/crossplane/provider-azure/pkg/controller/network/AzureFirewall"
+	"github.com/crossplane/provider-azure/pkg/controller/network/applicationsecuritygroup"
 	SecurityGroup "github.com/crossplane/provider-azure/pkg/controller/network/securitygroup"
 	ctrl "sigs.k8s.io/controller-runtime"
 
@@ -60,6 +61,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		container.Setup,
 		SecurityGroup.Setup,
 		AzureFirewall.Setup,
+		applicationsecuritygroup.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
 			return err
