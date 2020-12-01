@@ -32,6 +32,18 @@ func (mg *SecurityGroup) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
 
 // GetProviderConfigReference of this SecurityGroup.
 func (mg *SecurityGroup) GetProviderConfigReference() *runtimev1alpha1.Reference {
+// GetCondition of this AzureFirewall.
+func (mg *AzureFirewall) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this AzureFirewall.
+func (mg *AzureFirewall) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this AzureFirewall.
+func (mg *AzureFirewall) GetProviderConfigReference() *runtimev1alpha1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
 
@@ -60,10 +72,35 @@ func (mg *SecurityGroup) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
 
 // SetProviderConfigReference of this SecurityGroup.
 func (mg *SecurityGroup) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+GetProviderReference of this AzureFirewall.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *AzureFirewall) GetProviderReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this AzureFirewall.
+func (mg *AzureFirewall) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this AzureFirewall.
+func (mg *AzureFirewall) SetConditions(c ...runtimev1alpha1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this AzureFirewall.
+func (mg *AzureFirewall) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this AzureFirewall.
+func (mg *AzureFirewall) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
 
 /*
+<<<<<<< HEAD
 SetProviderReference of this SecurityGroup.
 Deprecated: Use SetProviderConfigReference.
 */
@@ -73,6 +110,17 @@ func (mg *SecurityGroup) SetProviderReference(r *runtimev1alpha1.Reference) {
 
 // SetWriteConnectionSecretToReference of this SecurityGroup.
 func (mg *SecurityGroup) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+=======
+SetProviderReference of this AzureFirewall.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *AzureFirewall) SetProviderReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this AzureFirewall.
+func (mg *AzureFirewall) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+>>>>>>> feature-azurefirewall
 	mg.Spec.WriteConnectionSecretToReference = r
 }
 
