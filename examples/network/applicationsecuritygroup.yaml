@@ -1,0 +1,13 @@
+apiVersion: network.azure.crossplane.io/v1alpha3
+kind: ApplicationSecurityGroup
+metadata:
+  name: example-asg
+status:
+  id: 1234
+spec:
+  location: eastus
+  resourceGroupName: example-rg
+  providerRef:
+    name: azure-provider
+  resourceGroupNameRef:
+    name: example-rg
