@@ -127,8 +127,8 @@ func setApplicationSecurityGroups(groups *[]v1alpha3.ApplicationSecurityGroup) *
 		applicationSecurityGroup.Type = azure.ToStringPtr(v.Type)
 		applicationSecurityGroup.Etag = azure.ToStringPtr(v.Etag)
 		var applicationSecurityGroupPropertiesFormat = new(networkmgmt.ApplicationSecurityGroupPropertiesFormat)
-		applicationSecurityGroupPropertiesFormat.ResourceGUID = azure.ToStringPtr(v.Properties.ResourceGUID)
-		applicationSecurityGroupPropertiesFormat.ProvisioningState = azure.ToStringPtr(v.Properties.ProvisioningState)
+		applicationSecurityGroupPropertiesFormat.ResourceGUID = v.Properties.ResourceGUID
+		applicationSecurityGroupPropertiesFormat.ProvisioningState = v.Properties.ProvisioningState
 		applicationSecurityGroup.ApplicationSecurityGroupPropertiesFormat = applicationSecurityGroupPropertiesFormat
 		*appSecurityGroups = append(*appSecurityGroups, applicationSecurityGroup)
 	}

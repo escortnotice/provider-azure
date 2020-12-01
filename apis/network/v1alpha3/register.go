@@ -67,6 +67,7 @@ var (
 	AzureFirewallGroupKind        = schema.GroupKind{Group: Group, Kind: AzureFirewallKind}.String()
 	AzureFirewallKindAPIVersion   = AzureFirewallKind + "." + SchemeGroupVersion.String()
 	AzureFirewallGroupVersionKind = SchemeGroupVersion.WithKind(AzureFirewallKind)
+)
 // ApplicationSecurityGroup type metadata.
 var (
 	ApplicationSecurityGroupKind             = reflect.TypeOf(ApplicationSecurityGroup{}).Name()

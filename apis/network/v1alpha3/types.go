@@ -230,15 +230,15 @@ type SubnetList struct {
 type SecurityRuleProtocol string
 
 // ApplicationSecurityGroupPropertiesFormat application security group properties.
-type ApplicationSecurityGroupPropertiesFormat struct {
+/*type ApplicationSecurityGroupPropertiesFormat struct {
 	// ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
 	ResourceGUID string `json:"resourceGuid,omitempty"`
 	// ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
 	ProvisioningState string `json:"provisioningState,omitempty"`
-}
+}*/
 
 // ApplicationSecurityGroup an application security group in a resource group used in Network Security Group.
-type ApplicationSecurityGroup struct {
+/*type ApplicationSecurityGroup struct {
 	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
 	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
 	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
@@ -251,7 +251,7 @@ type ApplicationSecurityGroup struct {
 	Type string `json:"type,omitempty"`
 	// Location - Resource location.
 	Location string `json:"location,omitempty"`
-}
+}*/
 
 // SecurityRuleAccess enumerates the values for security rule access.
 type SecurityRuleAccess string
@@ -717,6 +717,20 @@ type ApplicationSecurityGroup struct {
 
 	Spec   ApplicationSecurityGroupSpec   `json:"spec"`
 	Status ApplicationSecurityGroupStatus `json:"status,omitempty"`
+
+	// The fields used only in Network Security Group creation
+	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
+	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+	// ID - Resource ID.
+	ID string `json:"id,omitempty"`
+	// Name - READ-ONLY; Resource name.
+	Name string `json:"name,omitempty"`
+	// Type - READ-ONLY; Resource type.
+	Type string `json:"type,omitempty"`
+	// Location - Resource location.
+	Location string `json:"location,omitempty"`
 }
 
 // ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.

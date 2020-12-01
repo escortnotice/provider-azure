@@ -107,22 +107,30 @@ spec:
                             destinationApplicationSecurityGroups:
                               description: DestinationApplicationSecurityGroups - The application security group specified as destination.
                               items:
-                                description: ApplicationSecurityGroup an application security group in a resource group.
+                                description: A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
                                 properties:
+                                  apiVersion:
+                                    description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                                    type: string
                                   etag:
                                     description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
                                     type: string
                                   id:
                                     description: ID - Resource ID.
                                     type: string
+                                  kind:
+                                    description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
                                   location:
                                     description: Location - Resource location.
                                     type: string
+                                  metadata:
+                                    type: object
                                   name:
                                     description: Name - READ-ONLY; Resource name.
                                     type: string
                                   properties:
-                                    description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                    description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
                                     properties:
                                       provisioningState:
                                         description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
@@ -131,9 +139,144 @@ spec:
                                         description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
                                         type: string
                                     type: object
+                                  spec:
+                                    description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
+                                    properties:
+                                      deletionPolicy:
+                                        description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                                        enum:
+                                        - Orphan
+                                        - Delete
+                                        type: string
+                                      etag:
+                                        description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID - Resource ID.
+                                        type: string
+                                      location:
+                                        description: Location - Resource location.
+                                        type: string
+                                      name:
+                                        description: Name - READ-ONLY; Resource name.
+                                        type: string
+                                      properties:
+                                        description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                        properties:
+                                          provisioningState:
+                                            description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+                                            type: string
+                                          resourceGuid:
+                                            description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+                                            type: string
+                                        type: object
+                                      providerConfigRef:
+                                        description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      providerRef:
+                                        description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      resourceGroupName:
+                                        description: ResourceGroupName - Name of the ApplicationSecurityGroup's resource group.
+                                        type: string
+                                      resourceGroupNameRef:
+                                        description: ResourceGroupNameRef - A reference to the the ApplicationSecurityGroup's resource group.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      tags:
+                                        additionalProperties:
+                                          type: string
+                                        description: Tags - Resource tags.
+                                        type: object
+                                      type:
+                                        description: Type - READ-ONLY; Resource type.
+                                        type: string
+                                      writeConnectionSecretToRef:
+                                        description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                                        properties:
+                                          name:
+                                            description: Name of the secret.
+                                            type: string
+                                          namespace:
+                                            description: Namespace of the secret.
+                                            type: string
+                                        required:
+                                        - name
+                                        - namespace
+                                        type: object
+                                    type: object
+                                  status:
+                                    description: ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
+                                    properties:
+                                      conditions:
+                                        description: Conditions of the resource.
+                                        items:
+                                          description: A Condition that may apply to a resource.
+                                          properties:
+                                            lastTransitionTime:
+                                              description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                                              format: date-time
+                                              type: string
+                                            message:
+                                              description: A Message containing details about this condition's last transition from one status to another, if any.
+                                              type: string
+                                            reason:
+                                              description: A Reason for this condition's last transition from one status to another.
+                                              type: string
+                                            status:
+                                              description: Status of this condition; is it currently True, False, or Unknown?
+                                              type: string
+                                            type:
+                                              description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                                              type: string
+                                          required:
+                                          - lastTransitionTime
+                                          - reason
+                                          - status
+                                          - type
+                                          type: object
+                                        type: array
+                                      etag:
+                                        description: Etag - A unique string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID of this ApplicationSecurityGroup.
+                                        type: string
+                                      message:
+                                        description: A Message providing detail about the state of this ApplicationSecurityGroup, if any.
+                                        type: string
+                                      purpose:
+                                        description: Purpose - A string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+                                        type: string
+                                      state:
+                                        description: State of this ApplicationSecurityGroup.
+                                        type: string
+                                      type:
+                                        description: Type of this ApplicationSecurityGroup.
+                                        type: string
+                                    type: object
                                   type:
                                     description: Type - READ-ONLY; Resource type.
                                     type: string
+                                required:
+                                - spec
                                 type: object
                               type: array
                             destinationPortRange:
@@ -168,22 +311,30 @@ spec:
                             sourceApplicationSecurityGroups:
                               description: SourceApplicationSecurityGroups - The application security group specified as source.
                               items:
-                                description: ApplicationSecurityGroup an application security group in a resource group.
+                                description: A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
                                 properties:
+                                  apiVersion:
+                                    description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                                    type: string
                                   etag:
                                     description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
                                     type: string
                                   id:
                                     description: ID - Resource ID.
                                     type: string
+                                  kind:
+                                    description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
                                   location:
                                     description: Location - Resource location.
                                     type: string
+                                  metadata:
+                                    type: object
                                   name:
                                     description: Name - READ-ONLY; Resource name.
                                     type: string
                                   properties:
-                                    description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                    description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
                                     properties:
                                       provisioningState:
                                         description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
@@ -192,9 +343,144 @@ spec:
                                         description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
                                         type: string
                                     type: object
+                                  spec:
+                                    description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
+                                    properties:
+                                      deletionPolicy:
+                                        description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                                        enum:
+                                        - Orphan
+                                        - Delete
+                                        type: string
+                                      etag:
+                                        description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID - Resource ID.
+                                        type: string
+                                      location:
+                                        description: Location - Resource location.
+                                        type: string
+                                      name:
+                                        description: Name - READ-ONLY; Resource name.
+                                        type: string
+                                      properties:
+                                        description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                        properties:
+                                          provisioningState:
+                                            description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+                                            type: string
+                                          resourceGuid:
+                                            description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+                                            type: string
+                                        type: object
+                                      providerConfigRef:
+                                        description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      providerRef:
+                                        description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      resourceGroupName:
+                                        description: ResourceGroupName - Name of the ApplicationSecurityGroup's resource group.
+                                        type: string
+                                      resourceGroupNameRef:
+                                        description: ResourceGroupNameRef - A reference to the the ApplicationSecurityGroup's resource group.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      tags:
+                                        additionalProperties:
+                                          type: string
+                                        description: Tags - Resource tags.
+                                        type: object
+                                      type:
+                                        description: Type - READ-ONLY; Resource type.
+                                        type: string
+                                      writeConnectionSecretToRef:
+                                        description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                                        properties:
+                                          name:
+                                            description: Name of the secret.
+                                            type: string
+                                          namespace:
+                                            description: Namespace of the secret.
+                                            type: string
+                                        required:
+                                        - name
+                                        - namespace
+                                        type: object
+                                    type: object
+                                  status:
+                                    description: ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
+                                    properties:
+                                      conditions:
+                                        description: Conditions of the resource.
+                                        items:
+                                          description: A Condition that may apply to a resource.
+                                          properties:
+                                            lastTransitionTime:
+                                              description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                                              format: date-time
+                                              type: string
+                                            message:
+                                              description: A Message containing details about this condition's last transition from one status to another, if any.
+                                              type: string
+                                            reason:
+                                              description: A Reason for this condition's last transition from one status to another.
+                                              type: string
+                                            status:
+                                              description: Status of this condition; is it currently True, False, or Unknown?
+                                              type: string
+                                            type:
+                                              description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                                              type: string
+                                          required:
+                                          - lastTransitionTime
+                                          - reason
+                                          - status
+                                          - type
+                                          type: object
+                                        type: array
+                                      etag:
+                                        description: Etag - A unique string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID of this ApplicationSecurityGroup.
+                                        type: string
+                                      message:
+                                        description: A Message providing detail about the state of this ApplicationSecurityGroup, if any.
+                                        type: string
+                                      purpose:
+                                        description: Purpose - A string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+                                        type: string
+                                      state:
+                                        description: State of this ApplicationSecurityGroup.
+                                        type: string
+                                      type:
+                                        description: Type of this ApplicationSecurityGroup.
+                                        type: string
+                                    type: object
                                   type:
                                     description: Type - READ-ONLY; Resource type.
                                     type: string
+                                required:
+                                - spec
                                 type: object
                               type: array
                             sourcePortRange:
@@ -256,22 +542,30 @@ spec:
                             destinationApplicationSecurityGroups:
                               description: DestinationApplicationSecurityGroups - The application security group specified as destination.
                               items:
-                                description: ApplicationSecurityGroup an application security group in a resource group.
+                                description: A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
                                 properties:
+                                  apiVersion:
+                                    description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                                    type: string
                                   etag:
                                     description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
                                     type: string
                                   id:
                                     description: ID - Resource ID.
                                     type: string
+                                  kind:
+                                    description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
                                   location:
                                     description: Location - Resource location.
                                     type: string
+                                  metadata:
+                                    type: object
                                   name:
                                     description: Name - READ-ONLY; Resource name.
                                     type: string
                                   properties:
-                                    description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                    description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
                                     properties:
                                       provisioningState:
                                         description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
@@ -280,9 +574,144 @@ spec:
                                         description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
                                         type: string
                                     type: object
+                                  spec:
+                                    description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
+                                    properties:
+                                      deletionPolicy:
+                                        description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                                        enum:
+                                        - Orphan
+                                        - Delete
+                                        type: string
+                                      etag:
+                                        description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID - Resource ID.
+                                        type: string
+                                      location:
+                                        description: Location - Resource location.
+                                        type: string
+                                      name:
+                                        description: Name - READ-ONLY; Resource name.
+                                        type: string
+                                      properties:
+                                        description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                        properties:
+                                          provisioningState:
+                                            description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+                                            type: string
+                                          resourceGuid:
+                                            description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+                                            type: string
+                                        type: object
+                                      providerConfigRef:
+                                        description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      providerRef:
+                                        description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      resourceGroupName:
+                                        description: ResourceGroupName - Name of the ApplicationSecurityGroup's resource group.
+                                        type: string
+                                      resourceGroupNameRef:
+                                        description: ResourceGroupNameRef - A reference to the the ApplicationSecurityGroup's resource group.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      tags:
+                                        additionalProperties:
+                                          type: string
+                                        description: Tags - Resource tags.
+                                        type: object
+                                      type:
+                                        description: Type - READ-ONLY; Resource type.
+                                        type: string
+                                      writeConnectionSecretToRef:
+                                        description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                                        properties:
+                                          name:
+                                            description: Name of the secret.
+                                            type: string
+                                          namespace:
+                                            description: Namespace of the secret.
+                                            type: string
+                                        required:
+                                        - name
+                                        - namespace
+                                        type: object
+                                    type: object
+                                  status:
+                                    description: ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
+                                    properties:
+                                      conditions:
+                                        description: Conditions of the resource.
+                                        items:
+                                          description: A Condition that may apply to a resource.
+                                          properties:
+                                            lastTransitionTime:
+                                              description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                                              format: date-time
+                                              type: string
+                                            message:
+                                              description: A Message containing details about this condition's last transition from one status to another, if any.
+                                              type: string
+                                            reason:
+                                              description: A Reason for this condition's last transition from one status to another.
+                                              type: string
+                                            status:
+                                              description: Status of this condition; is it currently True, False, or Unknown?
+                                              type: string
+                                            type:
+                                              description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                                              type: string
+                                          required:
+                                          - lastTransitionTime
+                                          - reason
+                                          - status
+                                          - type
+                                          type: object
+                                        type: array
+                                      etag:
+                                        description: Etag - A unique string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID of this ApplicationSecurityGroup.
+                                        type: string
+                                      message:
+                                        description: A Message providing detail about the state of this ApplicationSecurityGroup, if any.
+                                        type: string
+                                      purpose:
+                                        description: Purpose - A string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+                                        type: string
+                                      state:
+                                        description: State of this ApplicationSecurityGroup.
+                                        type: string
+                                      type:
+                                        description: Type of this ApplicationSecurityGroup.
+                                        type: string
+                                    type: object
                                   type:
                                     description: Type - READ-ONLY; Resource type.
                                     type: string
+                                required:
+                                - spec
                                 type: object
                               type: array
                             destinationPortRange:
@@ -317,22 +746,30 @@ spec:
                             sourceApplicationSecurityGroups:
                               description: SourceApplicationSecurityGroups - The application security group specified as source.
                               items:
-                                description: ApplicationSecurityGroup an application security group in a resource group.
+                                description: A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
                                 properties:
+                                  apiVersion:
+                                    description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+                                    type: string
                                   etag:
                                     description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
                                     type: string
                                   id:
                                     description: ID - Resource ID.
                                     type: string
+                                  kind:
+                                    description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+                                    type: string
                                   location:
                                     description: Location - Resource location.
                                     type: string
+                                  metadata:
+                                    type: object
                                   name:
                                     description: Name - READ-ONLY; Resource name.
                                     type: string
                                   properties:
-                                    description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                    description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
                                     properties:
                                       provisioningState:
                                         description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
@@ -341,9 +778,144 @@ spec:
                                         description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
                                         type: string
                                     type: object
+                                  spec:
+                                    description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
+                                    properties:
+                                      deletionPolicy:
+                                        description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                                        enum:
+                                        - Orphan
+                                        - Delete
+                                        type: string
+                                      etag:
+                                        description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID - Resource ID.
+                                        type: string
+                                      location:
+                                        description: Location - Resource location.
+                                        type: string
+                                      name:
+                                        description: Name - READ-ONLY; Resource name.
+                                        type: string
+                                      properties:
+                                        description: ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
+                                        properties:
+                                          provisioningState:
+                                            description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
+                                            type: string
+                                          resourceGuid:
+                                            description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
+                                            type: string
+                                        type: object
+                                      providerConfigRef:
+                                        description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      providerRef:
+                                        description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      resourceGroupName:
+                                        description: ResourceGroupName - Name of the ApplicationSecurityGroup's resource group.
+                                        type: string
+                                      resourceGroupNameRef:
+                                        description: ResourceGroupNameRef - A reference to the the ApplicationSecurityGroup's resource group.
+                                        properties:
+                                          name:
+                                            description: Name of the referenced object.
+                                            type: string
+                                        required:
+                                        - name
+                                        type: object
+                                      tags:
+                                        additionalProperties:
+                                          type: string
+                                        description: Tags - Resource tags.
+                                        type: object
+                                      type:
+                                        description: Type - READ-ONLY; Resource type.
+                                        type: string
+                                      writeConnectionSecretToRef:
+                                        description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                                        properties:
+                                          name:
+                                            description: Name of the secret.
+                                            type: string
+                                          namespace:
+                                            description: Namespace of the secret.
+                                            type: string
+                                        required:
+                                        - name
+                                        - namespace
+                                        type: object
+                                    type: object
+                                  status:
+                                    description: ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
+                                    properties:
+                                      conditions:
+                                        description: Conditions of the resource.
+                                        items:
+                                          description: A Condition that may apply to a resource.
+                                          properties:
+                                            lastTransitionTime:
+                                              description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                                              format: date-time
+                                              type: string
+                                            message:
+                                              description: A Message containing details about this condition's last transition from one status to another, if any.
+                                              type: string
+                                            reason:
+                                              description: A Reason for this condition's last transition from one status to another.
+                                              type: string
+                                            status:
+                                              description: Status of this condition; is it currently True, False, or Unknown?
+                                              type: string
+                                            type:
+                                              description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                                              type: string
+                                          required:
+                                          - lastTransitionTime
+                                          - reason
+                                          - status
+                                          - type
+                                          type: object
+                                        type: array
+                                      etag:
+                                        description: Etag - A unique string that changes whenever the resource is updated.
+                                        type: string
+                                      id:
+                                        description: ID of this ApplicationSecurityGroup.
+                                        type: string
+                                      message:
+                                        description: A Message providing detail about the state of this ApplicationSecurityGroup, if any.
+                                        type: string
+                                      purpose:
+                                        description: Purpose - A string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+                                        type: string
+                                      state:
+                                        description: State of this ApplicationSecurityGroup.
+                                        type: string
+                                      type:
+                                        description: Type of this ApplicationSecurityGroup.
+                                        type: string
+                                    type: object
                                   type:
                                     description: Type - READ-ONLY; Resource type.
                                     type: string
+                                required:
+                                - spec
                                 type: object
                               type: array
                             sourcePortRange:
