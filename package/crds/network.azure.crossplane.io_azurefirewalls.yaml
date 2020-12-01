@@ -372,10 +372,10 @@ spec:
                 - name
                 type: object
               resourceGroupName:
-                description: ResourceGroupName - Name of the SecurityGroup's resource group.
+                description: ResourceGroupName - Name of the Azure Firewall's resource group.
                 type: string
               resourceGroupNameRef:
-                description: ResourceGroupNameRef - A reference to the the SecurityGroup's resource group.
+                description: ResourceGroupNameRef - A reference to the the Azure Firewall's resource group.
                 properties:
                   name:
                     description: Name of the referenced object.
@@ -468,7 +468,7 @@ spec:
                 description: ResourceGUID - The GUID of this AzureFirewall.
                 type: string
               state:
-                description: State of this SecurityGroup.
+                description: State of this VirtualNetwork.
                 type: string
               type:
                 description: Type of this AzureFirewall.

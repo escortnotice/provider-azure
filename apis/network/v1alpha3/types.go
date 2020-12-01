@@ -611,6 +611,9 @@ type AzureFirewallStatus struct {
 
 	// Type of this AzureFirewall.
 	Type string `json:"type,omitempty"`
+
+	// State of this VirtualNetwork.
+	State string `json:"state,omitempty"`
 }
 
 //Rules Structs
