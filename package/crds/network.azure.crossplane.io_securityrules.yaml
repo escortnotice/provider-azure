@@ -72,32 +72,10 @@ spec:
                     apiVersion:
                       description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
                       type: string
-                    etag:
-                      description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
-                      type: string
-                    id:
-                      description: ID - Resource ID.
-                      type: string
                     kind:
                       description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
                       type: string
-                    location:
-                      description: Location - Resource location.
-                      type: string
                     metadata:
-                      type: object
-                    name:
-                      description: Name - READ-ONLY; Resource name.
-                      type: string
-                    properties:
-                      description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
-                      properties:
-                        provisioningState:
-                          description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
-                          type: string
-                        resourceGuid:
-                          description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-                          type: string
                       type: object
                     spec:
                       description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
@@ -232,9 +210,6 @@ spec:
                           description: Type of this ApplicationSecurityGroup.
                           type: string
                       type: object
-                    type:
-                      description: Type - READ-ONLY; Resource type.
-                      type: string
                   required:
                   - spec
                   type: object
@@ -276,32 +251,10 @@ spec:
                     apiVersion:
                       description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
                       type: string
-                    etag:
-                      description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
-                      type: string
-                    id:
-                      description: ID - Resource ID.
-                      type: string
                     kind:
                       description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
                       type: string
-                    location:
-                      description: Location - Resource location.
-                      type: string
                     metadata:
-                      type: object
-                    name:
-                      description: Name - READ-ONLY; Resource name.
-                      type: string
-                    properties:
-                      description: The fields used only in Network Security Group creation ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
-                      properties:
-                        provisioningState:
-                          description: 'ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: ''Succeeded'', ''Updating'', ''Deleting'', and ''Failed''.'
-                          type: string
-                        resourceGuid:
-                          description: ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-                          type: string
                       type: object
                     spec:
                       description: ApplicationSecurityGroup contains a list of ApplicationSecurityGroup items
@@ -436,9 +389,6 @@ spec:
                           description: Type of this ApplicationSecurityGroup.
                           type: string
                       type: object
-                    type:
-                      description: Type - READ-ONLY; Resource type.
-                      type: string
                   required:
                   - spec
                   type: object
