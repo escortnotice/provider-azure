@@ -52,8 +52,15 @@ var (
 	SubnetKindAPIVersion   = SubnetKind + "." + SchemeGroupVersion.String()
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
-
+// PublicIPAddress type metadata.
+var (
+	PublicIPAddressKind             = reflect.TypeOf(PublicIPAddress{}).Name()
+	PublicIPAddressGroupKind        = schema.GroupKind{Group: Group, Kind: PublicIPAddressKind}.String()
+	PublicIPAddressKindAPIVersion   = PublicIPAddressKind + "." + SchemeGroupVersion.String()
+	PublicIPAddressGroupVersionKind = SchemeGroupVersion.WithKind(PublicIPAddressKind)
+)
 func init() {
 	SchemeBuilder.Register(&VirtualNetwork{}, &VirtualNetworkList{})
 	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
+	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})
 }
