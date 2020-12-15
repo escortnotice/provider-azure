@@ -269,12 +269,8 @@ type PublicIPAddressSpec struct {
 
 	//PublicIPAddressPropertiesFormat - Properties of the public ip address.
 	Properties PublicIPAddressPropertiesFormat `json:"properties,omitempty"`
-	// ID - Resource ID.
-	ID string `json:"id,omitempty"`
 	// Name - READ-ONLY; Resource name.
 	Name string `json:"name,omitempty"`
-	// Type - READ-ONLY; Resource type.
-	Type string `json:"type,omitempty"`
 	// Location - Resource location.
 	Location string `json:"location,omitempty"`
 	// Tags - Resource tags.

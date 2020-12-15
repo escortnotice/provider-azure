@@ -37,7 +37,6 @@ func UpdatePublicIpAddressStatusFromAzure(v *v1alpha3.PublicIPAddress, az networ
 func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.PublicIPAddress {
 	return networkmgmt.PublicIPAddress{
 		Name:     azure.ToStringPtr(pub.Spec.Name),
-		Type:     azure.ToStringPtr(pub.Spec.Type),
 		Location: azure.ToStringPtr(pub.Spec.Location),
 		Tags:     azure.ToStringPtrMap(pub.Spec.Tags),
 

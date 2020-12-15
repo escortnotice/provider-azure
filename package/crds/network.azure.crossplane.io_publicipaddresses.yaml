@@ -56,9 +56,6 @@ spec:
                 - Orphan
                 - Delete
                 type: string
-              id:
-                description: ID - Resource ID.
-                type: string
               location:
                 description: Location - Resource location.
                 type: string
@@ -134,9 +131,6 @@ spec:
                   type: string
                 description: Tags - Resource tags.
                 type: object
-              type:
-                description: Type - READ-ONLY; Resource type.
-                type: string
               writeConnectionSecretToRef:
                 description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
                 properties:
