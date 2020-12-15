@@ -14,10 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package network
+
 import (
 	"reflect"
 
-	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-06-01/network"
+	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network"
 	"github.com/crossplane/provider-azure/apis/network/v1alpha3"
 	azure "github.com/crossplane/provider-azure/pkg/clients"
 )
@@ -25,7 +26,7 @@ import (
 // UpdatePublicIpAddressStatusFromAzure updates the status related to the external
 // Azure Public IP in the PublicIpAddress Status
 func UpdatePublicIpAddressStatusFromAzure(v *v1alpha3.PublicIPAddress, az networkmgmt.PublicIPAddress) {
-	v.Status.State = azure.ToString(az.ProvisioningState)
+	v.Status.State = string(az.ProvisioningState)
 	v.Status.ID = azure.ToString(az.ID)
 	v.Status.Etag = azure.ToString(az.Etag)
 	v.Status.ResourceGUID = azure.ToString(az.ResourceGUID)
@@ -38,10 +39,10 @@ func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.Pub
 		Name:     azure.ToStringPtr(pub.Spec.Name),
 		Type:     azure.ToStringPtr(pub.Spec.Type),
 		Location: azure.ToStringPtr(pub.Spec.Location),
-		Tags: azure.ToStringPtrMap(pub.Spec.Tags),
+		Tags:     azure.ToStringPtrMap(pub.Spec.Tags),
 
 		PublicIPAddressPropertiesFormat: &networkmgmt.PublicIPAddressPropertiesFormat{
-			ProvisioningState:        azure.ToStringPtr(pub.Spec.Properties.ProvisioningState),
+			ProvisioningState:        networkmgmt.ProvisioningState(pub.Spec.Properties.ProvisioningState),
 			IdleTimeoutInMinutes:     azure.ToInt32Ptr(pub.Spec.Properties.IdleTimeoutInMinutes),
 			PublicIPAddressVersion:   networkmgmt.IPVersion(pub.Spec.Properties.PublicIPAddressVersion),
 			PublicIPAllocationMethod: networkmgmt.IPAllocationMethod(pub.Spec.Properties.PublicIPAllocationMethod),
@@ -52,38 +53,36 @@ func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.Pub
 }
 
 func setSKU(skuName v1alpha3.PublicIPAddressSkuName) *networkmgmt.PublicIPAddressSku {
-	if skuName=="" {
+	if skuName == "" {
 		return &networkmgmt.PublicIPAddressSku{
 			Name: networkmgmt.PublicIPAddressSkuName("Basic"),
 		}
 	}
-			return &networkmgmt.PublicIPAddressSku{
-				Name:  networkmgmt.PublicIPAddressSkuName(skuName),
-
-		}
+	return &networkmgmt.PublicIPAddressSku{
+		Name: networkmgmt.PublicIPAddressSkuName(skuName),
 	}
+}
 
 func setDNS(settings *v1alpha3.PublicIPAddressDNSSettings) *networkmgmt.PublicIPAddressDNSSettings {
-	if nil!=settings{
+	if nil != settings {
 		return &networkmgmt.PublicIPAddressDNSSettings{
 			DomainNameLabel: settings.DomainNameLabel,
-			Fqdn: settings.Fqdn,
+			Fqdn:            settings.Fqdn,
 		}
 	}
 	return nil
 }
 
-
 // PublicIpAdressNeedsUpdate determines if a PublicIpAdress need to be updated
 func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.PublicIPAddress) bool {
 
-	if !reflect.DeepEqual(azure.ToStringPtr(sg.Name),az.Name){
+	if !reflect.DeepEqual(azure.ToStringPtr(sg.Name), az.Name) {
 		return true
 	}
-	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location) ,az.Location){
+	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location), az.Location) {
 		return true
 	}
-	if !reflect.DeepEqual(azure.ToStringPtrMap(sg.Spec.Tags),az.Tags){
+	if !reflect.DeepEqual(azure.ToStringPtrMap(sg.Spec.Tags), az.Tags) {
 		return true
 	}
 

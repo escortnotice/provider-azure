@@ -17,7 +17,8 @@ package PublicIPAddress
 
 import (
 	"context"
-	azurenetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-06-01/network"
+	azurenetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network/networkapi"
 	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 	"github.com/crossplane/crossplane-runtime/pkg/event"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
@@ -35,9 +36,9 @@ import (
 // Error strings.
 const (
 	errNotAPublicIPAddress   = "managed resource is not an PublicIPAddress"
-	errCreatePublicIPAddress= "cannot create PublicIPAddress"
+	errCreatePublicIPAddress = "cannot create PublicIPAddress"
 	errUpdatePublicIPAddress = "cannot update PublicIPAddress"
-	errGetPublicIPAddress   = "cannot get PublicIPAddress"
+	errGetPublicIPAddress    = "cannot get PublicIPAddress"
 	errDeletePublicIPAddress = "cannot delete PublicIPAddress"
 )
 
@@ -72,7 +73,8 @@ func (c *connecter) Connect(ctx context.Context, mg resource.Managed) (managed.E
 }
 
 type external struct {
-	client azurenetwork.PublicIPAddressesClient
+	//client azurenetwork.PublicIPAddressesClient
+	client networkapi.PublicIPAddressesClientAPI
 }
 
 func (e *external) Observe(ctx context.Context, mg resource.Managed) (managed.ExternalObservation, error) {
@@ -80,7 +82,7 @@ func (e *external) Observe(ctx context.Context, mg resource.Managed) (managed.Ex
 	if !ok {
 		return managed.ExternalObservation{}, errors.New(errNotAPublicIPAddress)
 	}
-	az, err := e.client.Get(ctx, v.Spec.ResourceGroupName, v.Spec.Name,"")
+	az, err := e.client.Get(ctx, v.Spec.ResourceGroupName, v.ObjectMeta.Name, "")
 
 	if azureclients.IsNotFound(err) {
 		return managed.ExternalObservation{ResourceExists: false}, nil
@@ -123,7 +125,7 @@ func (e *external) Update(ctx context.Context, mg resource.Managed) (managed.Ext
 	if !ok {
 		return managed.ExternalUpdate{}, errors.New(errNotAPublicIPAddress)
 	}
-	az, err := e.client.Get(ctx, v.Spec.ResourceGroupName, v.Spec.Name,"")
+	az, err := e.client.Get(ctx, v.Spec.ResourceGroupName, v.ObjectMeta.Name, "")
 	if err != nil {
 		return managed.ExternalUpdate{}, errors.Wrap(err, errNotAPublicIPAddress)
 	}
