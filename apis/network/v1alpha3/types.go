@@ -244,17 +244,6 @@ type PublicIPAddress struct {
 	Spec   PublicIPAddressSpec   `json:"spec"`
 
 	Status PublicIPAddressStatus `json:"status,omitempty"`
-	
-	// Etag - A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-	// ID - Resource Identifier.
-	ID *string `json:"id,omitempty"`
-	// Name - READ-ONLY; Resource name.
-	Name *string `json:"name,omitempty"`
-	// Type - READ-ONLY; Resource type.
-	Type *string `json:"type,omitempty"`
-	// Location - Resource location.
-	Location *string `json:"location,omitempty"`
 
 }
 // PublicIPAddressSkuName enumerates the values for public ip address sku name.
@@ -278,10 +267,8 @@ type PublicIPAddressSpec struct {
 	// group.
 	ResourceGroupNameRef *runtimev1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 
-	//PublicIPAddressPropertiesFormat - Properties of the application security group.
+	//PublicIPAddressPropertiesFormat - Properties of the public ip address.
 	Properties PublicIPAddressPropertiesFormat `json:"properties,omitempty"`
-	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
-	Etag string `json:"etag,omitempty"`
 	// ID - Resource ID.
 	ID string `json:"id,omitempty"`
 	// Name - READ-ONLY; Resource name.
@@ -303,13 +290,10 @@ type PublicIPAddressPropertiesFormat struct {
 	PublicIPAddressVersion IPVersion `json:"publicIPAddressVersion,omitempty"`
 	// DNSSettings - The FQDN of the DNS record associated with the public IP address.
 	DNSSettings *PublicIPAddressDNSSettings `json:"dnsSettings,omitempty"`
-	IPAddress   *string                     `json:"ipAddress,omitempty"`
 	// IdleTimeoutInMinutes - The idle timeout of the public IP address.
-	IdleTimeoutInMinutes *int32 `json:"idleTimeoutInMinutes,omitempty"`
-	// ResourceGUID - The resource GUID property of the public IP resource.
-	//ResourceGUID *string `json:"resourceGuid,omitempty"`
+	IdleTimeoutInMinutes int `json:"idleTimeoutInMinutes,omitempty"`
 	// ProvisioningState - The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
+	ProvisioningState string `json:"provisioningState,omitempty"`
 }
 
 // IPAllocationMethod enumerates the values for ip allocation method.

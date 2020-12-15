@@ -42,23 +42,11 @@ spec:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
             type: string
-          etag:
-            description: Etag - A unique read-only string that changes whenever the resource is updated.
-            type: string
-          id:
-            description: ID - Resource Identifier.
-            type: string
           kind:
             description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
             type: string
-          location:
-            description: Location - Resource location.
-            type: string
           metadata:
             type: object
-          name:
-            description: Name - READ-ONLY; Resource name.
-            type: string
           spec:
             description: PublicIPAddressSpec contains PublicIPAddress specification
             properties:
@@ -67,9 +55,6 @@ spec:
                 enum:
                 - Orphan
                 - Delete
-                type: string
-              etag:
-                description: Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
                 type: string
               id:
                 description: ID - Resource ID.
@@ -81,7 +66,7 @@ spec:
                 description: Name - READ-ONLY; Resource name.
                 type: string
               properties:
-                description: PublicIPAddressPropertiesFormat - Properties of the application security group.
+                description: PublicIPAddressPropertiesFormat - Properties of the public ip address.
                 properties:
                   dnsSettings:
                     description: DNSSettings - The FQDN of the DNS record associated with the public IP address.
@@ -101,12 +86,9 @@ spec:
                     type: string
                   idleTimeoutInMinutes:
                     description: IdleTimeoutInMinutes - The idle timeout of the public IP address.
-                    format: int32
                     type: integer
-                  ipAddress:
-                    type: string
                   provisioningState:
-                    description: 'ResourceGUID - The resource GUID property of the public IP resource. ResourceGUID *string `json:"resourceGuid,omitempty"` ProvisioningState - The provisioning state of the PublicIP resource. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+                    description: 'ProvisioningState - The provisioning state of the PublicIP resource. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
                     type: string
                   publicIPAddressVersion:
                     description: 'PublicIPAddressVersion - The public IP address version. Possible values include: ''IPv4'', ''IPv6'''
@@ -222,9 +204,6 @@ spec:
                 description: Type of this PublicIPAddress.
                 type: string
             type: object
-          type:
-            description: Type - READ-ONLY; Resource type.
-            type: string
         required:
         - spec
         type: object

@@ -35,17 +35,14 @@ func UpdatePublicIpAddressStatusFromAzure(v *v1alpha3.PublicIPAddress, az networ
 // NewPublicIpAddressParameters returns an Azure public ip address object from a Public Ip Address Spec
 func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.PublicIPAddress {
 	return networkmgmt.PublicIPAddress{
-		Etag:     azure.ToStringPtr(pub.Spec.Etag),
-		ID:       azure.ToStringPtr(pub.Spec.ID),
 		Name:     azure.ToStringPtr(pub.Spec.Name),
 		Type:     azure.ToStringPtr(pub.Spec.Type),
 		Location: azure.ToStringPtr(pub.Spec.Location),
 		Tags: azure.ToStringPtrMap(pub.Spec.Tags),
 
 		PublicIPAddressPropertiesFormat: &networkmgmt.PublicIPAddressPropertiesFormat{
-			//ResourceGUID:             pub.Spec.Properties.ResourceGUID,
-			ProvisioningState:        pub.Spec.Properties.ProvisioningState,
-			IdleTimeoutInMinutes:     pub.Spec.Properties.IdleTimeoutInMinutes,
+			ProvisioningState:        azure.ToStringPtr(pub.Spec.Properties.ProvisioningState),
+			IdleTimeoutInMinutes:     azure.ToInt32Ptr(pub.Spec.Properties.IdleTimeoutInMinutes),
 			PublicIPAddressVersion:   networkmgmt.IPVersion(pub.Spec.Properties.PublicIPAddressVersion),
 			PublicIPAllocationMethod: networkmgmt.IPAllocationMethod(pub.Spec.Properties.PublicIPAllocationMethod),
 			DNSSettings:              setDNS(pub.Spec.Properties.DNSSettings),
