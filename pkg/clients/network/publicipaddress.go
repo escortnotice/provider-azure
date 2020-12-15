@@ -77,13 +77,13 @@ func setDNS(settings *v1alpha3.PublicIPAddressDNSSettings) *networkmgmt.PublicIP
 // PublicIpAdressNeedsUpdate determines if a PublicIpAdress need to be updated
 func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.PublicIPAddress) bool {
 
-	if !reflect.DeepEqual(sg.Name,az.Name){
+	if !reflect.DeepEqual(azure.ToStringPtr(sg.Name),az.Name){
 		return true
 	}
-	if !reflect.DeepEqual(sg.Spec.Location ,az.Location){
+	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location) ,az.Location){
 		return true
 	}
-	if !reflect.DeepEqual(sg.Spec.Tags,az.Tags){
+	if !reflect.DeepEqual(azure.ToStringPtrMap(sg.Spec.Tags),az.Tags){
 		return true
 	}
 
