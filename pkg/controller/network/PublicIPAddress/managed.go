@@ -17,8 +17,8 @@ package PublicIPAddress
 
 import (
 	"context"
-	azurenetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network"
-	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network/networkapi"
+	azurenetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-06-01/network"
+	"github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-06-01/network/networkapi"
 	runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 	"github.com/crossplane/crossplane-runtime/pkg/event"
 	"github.com/crossplane/crossplane-runtime/pkg/logging"

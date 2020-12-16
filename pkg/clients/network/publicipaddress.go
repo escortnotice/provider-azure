@@ -18,7 +18,7 @@ package network
 import (
 	"reflect"
 
-	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2020-03-01/network"
+	networkmgmt "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-06-01/network"
 	"github.com/crossplane/provider-azure/apis/network/v1alpha3"
 	azure "github.com/crossplane/provider-azure/pkg/clients"
 )
@@ -26,7 +26,7 @@ import (
 // UpdatePublicIpAddressStatusFromAzure updates the status related to the external
 // Azure Public IP in the PublicIpAddress Status
 func UpdatePublicIpAddressStatusFromAzure(v *v1alpha3.PublicIPAddress, az networkmgmt.PublicIPAddress) {
-	v.Status.State = string(az.ProvisioningState)
+	v.Status.State = azure.ToString(az.ProvisioningState)
 	v.Status.ID = azure.ToString(az.ID)
 	v.Status.Etag = azure.ToString(az.Etag)
 	v.Status.ResourceGUID = azure.ToString(az.ResourceGUID)
@@ -41,7 +41,7 @@ func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.Pub
 		Tags:     azure.ToStringPtrMap(pub.Spec.Tags),
 
 		PublicIPAddressPropertiesFormat: &networkmgmt.PublicIPAddressPropertiesFormat{
-			ProvisioningState:        networkmgmt.ProvisioningState(pub.Spec.Properties.ProvisioningState),
+			ProvisioningState:       azure.ToStringPtr(pub.Spec.Properties.ProvisioningState),
 			IdleTimeoutInMinutes:     azure.ToInt32Ptr(pub.Spec.Properties.IdleTimeoutInMinutes),
 			PublicIPAddressVersion:   networkmgmt.IPVersion(pub.Spec.Properties.PublicIPAddressVersion),
 			PublicIPAllocationMethod: networkmgmt.IPAllocationMethod(pub.Spec.Properties.PublicIPAllocationMethod),
