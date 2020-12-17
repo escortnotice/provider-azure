@@ -718,19 +718,6 @@ type ApplicationSecurityGroup struct {
 	Spec   ApplicationSecurityGroupSpec   `json:"spec"`
 	Status ApplicationSecurityGroupStatus `json:"status,omitempty"`
 
-	// The fields used only in Network Security Group creation
-	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
-	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
-	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
-	Etag string `json:"etag,omitempty"`
-	// ID - Resource ID.
-	ID string `json:"id,omitempty"`
-	// Name - READ-ONLY; Resource name.
-	Name string `json:"name,omitempty"`
-	// Type - READ-ONLY; Resource type.
-	Type string `json:"type,omitempty"`
-	// Location - Resource location.
-	Location string `json:"location,omitempty"`
 }
 
 // ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
