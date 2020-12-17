@@ -53,6 +53,14 @@ var (
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
 
+// PublicIPAddress type metadata.
+var (
+	PublicIPAddressKind             = reflect.TypeOf(PublicIPAddress{}).Name()
+	PublicIPAddressGroupKind        = schema.GroupKind{Group: Group, Kind: PublicIPAddressKind}.String()
+	PublicIPAddressKindAPIVersion   = PublicIPAddressKind + "." + SchemeGroupVersion.String()
+	PublicIPAddressGroupVersionKind = SchemeGroupVersion.WithKind(PublicIPAddressKind)
+)
+
 // SecurityGroup type Metadata.
 var (
 	SecurityGroupKind             = reflect.TypeOf(SecurityGroup{}).Name()
@@ -83,4 +91,5 @@ func init() {
 	SchemeBuilder.Register(&SecurityRule{})
 	SchemeBuilder.Register(&AzureFirewall{}, &AzureFirewallList{})
 	SchemeBuilder.Register(&ApplicationSecurityGroup{}, &ApplicationSecurityGroupList{})
+	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})
 }

@@ -224,7 +224,6 @@ type SubnetList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Subnet `json:"items"`
 }
-
 //Network Security Group structs
 // SecurityRuleProtocol enumerates the values for security rule protocol.
 type SecurityRuleProtocol string
@@ -702,7 +701,6 @@ type AzureFirewallNetworkRule struct {
 }
 
 // +kubebuilder:object:root=true
-
 // A ApplicationSecurityGroup is a managed resource that represents an Azure ApplicationSecurityGroup
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
@@ -723,24 +721,19 @@ type ApplicationSecurityGroup struct {
 // ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
 type ApplicationSecurityGroupStatus struct {
 	runtimev1alpha1.ResourceStatus `json:",inline"`
-
 	// State of this ApplicationSecurityGroup.
 	State string `json:"state,omitempty"`
-
 	// A Message providing detail about the state of this ApplicationSecurityGroup, if any.
 	Message string `json:"message,omitempty"`
 
 	// Etag - A unique string that changes whenever the resource is updated.
 	Etag string `json:"etag,omitempty"`
-
-	// ID of this ApplicationSecurityGroup.
+  	// ID of this ApplicationSecurityGroup.
 	ID string `json:"id,omitempty"`
-
-	// Purpose - A string identifying the intention of use for this subnet based
+  	// Purpose - A string identifying the intention of use for this subnet based
 	// on delegations and other user-defined properties.
 	Purpose string `json:"purpose,omitempty"`
-
-	// Type of this ApplicationSecurityGroup.
+  	// Type of this ApplicationSecurityGroup.
 	Type string `json:"type,omitempty"`
 }
 
@@ -778,12 +771,135 @@ type ApplicationSecurityGroupPropertiesFormat struct {
 	// ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
-
 // +kubebuilder:object:root=true
-
-// ApplicationSecurityGroupList contains a list of ApplicationSecurityGroup items
+  // ApplicationSecurityGroupList contains a list of ApplicationSecurityGroup items
 type ApplicationSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ApplicationSecurityGroup `json:"items"`
 }
+
+// +kubebuilder:object:root=true
+// A PublicIPAddress is a managed resource that represents an Azure PublicIPAddress
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.state"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.location"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,azure}
+type PublicIPAddress struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+	Spec   PublicIPAddressSpec   `json:"spec"`
+	Status PublicIPAddressStatus `json:"status,omitempty"`
+}
+// PublicIPAddressSkuName enumerates the values for public ip address sku name.
+type PublicIPAddressSkuName string
+const (
+	// PublicIPAddressSkuNameBasic ...
+	PublicIPAddressSkuNameBasic PublicIPAddressSkuName = "Basic"
+	// PublicIPAddressSkuNameStandard ...
+	PublicIPAddressSkuNameStandard PublicIPAddressSkuName = "Standard"
+)
+
+// PublicIPAddressSpec contains PublicIPAddress specification
+type PublicIPAddressSpec struct {
+	runtimev1alpha1.ResourceSpec `json:",inline"`
+
+	// ResourceGroupName - Name of the PublicIPAddress's resource group.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+
+	// ResourceGroupNameRef - A reference to the the PublicIPAddress' resource
+	// group.
+	ResourceGroupNameRef *runtimev1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
+
+	//PublicIPAddressPropertiesFormat - Properties of the public ip address.
+	Properties PublicIPAddressPropertiesFormat `json:"properties,omitempty"`
+	// Name - READ-ONLY; Resource name.
+	Name string `json:"name,omitempty"`
+	// Location - Resource location.
+	Location string `json:"location,omitempty"`
+	// Tags - Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+}
+
+//  PublicIPAddressPropertiesFormat Public IPAddress properties.
+type PublicIPAddressPropertiesFormat struct {
+	// PublicIPAllocationMethod - The public IP allocation method. Possible values are: 'Static' and 'Dynamic'. Possible values include: 'Static', 'Dynamic'
+	PublicIPAllocationMethod IPAllocationMethod `json:"publicIPAllocationMethod"`
+	IPAddressSkuName PublicIPAddressSkuName `json:"iPAddressSkuName,omitempty"`
+	// PublicIPAddressVersion - The public IP address version. Possible values include: 'IPv4', 'IPv6'
+	PublicIPAddressVersion IPVersion `json:"publicIPAddressVersion,omitempty"`
+	// DNSSettings - The FQDN of the DNS record associated with the public IP address.
+	DNSSettings *PublicIPAddressDNSSettings `json:"dnsSettings,omitempty"`
+	// IdleTimeoutInMinutes - The idle timeout of the public IP address.
+	IdleTimeoutInMinutes int `json:"idleTimeoutInMinutes,omitempty"`
+	// ProvisioningState - The provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+	ProvisioningState string `json:"provisioningState,omitempty"`
+}
+
+// IPAllocationMethod enumerates the values for ip allocation method.
+type IPAllocationMethod string
+
+const (
+	// Dynamic ...
+	Dynamic IPAllocationMethod = "Dynamic"
+	// Static ...
+	Static IPAllocationMethod = "Static"
+)
+
+// PublicIPAddressDNSSettings contains FQDN of the DNS record associated with the public IP address
+type PublicIPAddressDNSSettings struct {
+	// DomainNameLabel - Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
+	DomainNameLabel *string `json:"domainNameLabel,omitempty"`
+	// Fqdn - Gets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
+	Fqdn *string `json:"fqdn,omitempty"`
+	// ReverseFqdn - Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
+	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
+}
+// IPVersion enumerates the values for ip version.
+type IPVersion string
+
+const (
+	// IPv4 ...
+	IPv4 IPVersion = "IPv4"
+	// IPv6 ...
+	IPv6 IPVersion = "IPv6"
+)
+
+
+// PublicIPAddressStatus represents the observed state of a PublicIPAddress.
+type PublicIPAddressStatus struct {
+	runtimev1alpha1.ResourceStatus `json:",inline"`
+
+	// State of this PublicIPAddress.
+	State string `json:"state,omitempty"`
+
+	// A Message providing detail about the state of this PublicIPAddress, if any.
+	Message string `json:"message,omitempty"`
+
+	// Etag - A unique string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+
+	// ID of this PublicIPAddress.
+	ID string `json:"id,omitempty"`
+
+	// Purpose - A string identifying the intention of use for this subnet based
+	// on delegations and other user-defined properties.
+	Purpose string `json:"purpose,omitempty"`
+
+	// Type of this PublicIPAddress.
+	Type string `json:"type,omitempty"`
+
+	// ResourceGUID - The GUID of this PublicIPAddress.
+	ResourceGUID string `json:"resourceGuid,omitempty"`
+}
+// +kubebuilder:object:root=true
+// PublicIPAddressList contains a list of PublicIPAddress items
+type PublicIPAddressList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []PublicIPAddress `json:"items"`
+}
+
