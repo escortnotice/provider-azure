@@ -28,6 +28,32 @@ func (l *PublicIPAddressList) GetItems() []resource.Managed {
 	}
 	return items
 }
+// GetItems of this ApplicationSecurityGroupList.
+func (l *ApplicationSecurityGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AzureFirewallList.
+func (l *AzureFirewallList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SecurityGroupList.
+func (l *SecurityGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
 
 // GetItems of this SubnetList.
 func (l *SubnetList) GetItems() []resource.Managed {
