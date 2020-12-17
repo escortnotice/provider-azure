@@ -1,0 +1,213 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.3.0
+  creationTimestamp: null
+  name: publicipaddresses.network.azure.crossplane.io
+spec:
+  group: network.azure.crossplane.io
+  names:
+    categories:
+    - crossplane
+    - managed
+    - azure
+    kind: PublicIPAddress
+    listKind: PublicIPAddressList
+    plural: publicipaddresses
+    singular: publicipaddress
+  scope: Cluster
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
+    - jsonPath: .status.state
+      name: STATE
+      type: string
+    - jsonPath: .spec.location
+      name: LOCATION
+      type: string
+    - jsonPath: .metadata.creationTimestamp
+      name: AGE
+      type: date
+    name: v1alpha3
+    schema:
+      openAPIV3Schema:
+        description: A PublicIPAddress is a managed resource that represents an Azure PublicIPAddress
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: PublicIPAddressSpec contains PublicIPAddress specification
+            properties:
+              deletionPolicy:
+                description: DeletionPolicy specifies what will happen to the underlying external when this managed resource is deleted - either "Delete" or "Orphan" the external resource. The "Delete" policy is the default when no policy is specified.
+                enum:
+                - Orphan
+                - Delete
+                type: string
+              location:
+                description: Location - Resource location.
+                type: string
+              name:
+                description: Name - READ-ONLY; Resource name.
+                type: string
+              properties:
+                description: PublicIPAddressPropertiesFormat - Properties of the public ip address.
+                properties:
+                  dnsSettings:
+                    description: DNSSettings - The FQDN of the DNS record associated with the public IP address.
+                    properties:
+                      domainNameLabel:
+                        description: DomainNameLabel - Gets or sets the Domain name label.The concatenation of the domain name label and the regionalized DNS zone make up the fully qualified domain name associated with the public IP address. If a domain name label is specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system.
+                        type: string
+                      fqdn:
+                        description: Fqdn - Gets the FQDN, Fully qualified domain name of the A DNS record associated with the public IP. This is the concatenation of the domainNameLabel and the regionalized DNS zone.
+                        type: string
+                      reverseFqdn:
+                        description: ReverseFqdn - Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
+                        type: string
+                    type: object
+                  iPAddressSkuName:
+                    description: PublicIPAddressSkuName enumerates the values for public ip address sku name.
+                    type: string
+                  idleTimeoutInMinutes:
+                    description: IdleTimeoutInMinutes - The idle timeout of the public IP address.
+                    type: integer
+                  provisioningState:
+                    description: 'ProvisioningState - The provisioning state of the PublicIP resource. Possible values are: ''Updating'', ''Deleting'', and ''Failed''.'
+                    type: string
+                  publicIPAddressVersion:
+                    description: 'PublicIPAddressVersion - The public IP address version. Possible values include: ''IPv4'', ''IPv6'''
+                    type: string
+                  publicIPAllocationMethod:
+                    description: 'PublicIPAllocationMethod - The public IP allocation method. Possible values are: ''Static'' and ''Dynamic''. Possible values include: ''Static'', ''Dynamic'''
+                    type: string
+                required:
+                - publicIPAllocationMethod
+                type: object
+              providerConfigRef:
+                description: ProviderConfigReference specifies how the provider that will be used to create, observe, update, and delete this managed resource should be configured.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              providerRef:
+                description: 'ProviderReference specifies the provider that will be used to create, observe, update, and delete this managed resource. Deprecated: Please use ProviderConfigReference, i.e. `providerConfigRef`'
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              resourceGroupName:
+                description: ResourceGroupName - Name of the PublicIPAddress's resource group.
+                type: string
+              resourceGroupNameRef:
+                description: ResourceGroupNameRef - A reference to the the PublicIPAddress' resource group.
+                properties:
+                  name:
+                    description: Name of the referenced object.
+                    type: string
+                required:
+                - name
+                type: object
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags - Resource tags.
+                type: object
+              writeConnectionSecretToRef:
+                description: WriteConnectionSecretToReference specifies the namespace and name of a Secret to which any connection details for this managed resource should be written. Connection details frequently include the endpoint, username, and password required to connect to the managed resource.
+                properties:
+                  name:
+                    description: Name of the secret.
+                    type: string
+                  namespace:
+                    description: Namespace of the secret.
+                    type: string
+                required:
+                - name
+                - namespace
+                type: object
+            type: object
+          status:
+            description: PublicIPAddressStatus represents the observed state of a PublicIPAddress.
+            properties:
+              conditions:
+                description: Conditions of the resource.
+                items:
+                  description: A Condition that may apply to a resource.
+                  properties:
+                    lastTransitionTime:
+                      description: LastTransitionTime is the last time this condition transitioned from one status to another.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A Message containing details about this condition's last transition from one status to another, if any.
+                      type: string
+                    reason:
+                      description: A Reason for this condition's last transition from one status to another.
+                      type: string
+                    status:
+                      description: Status of this condition; is it currently True, False, or Unknown?
+                      type: string
+                    type:
+                      description: Type of this condition. At most one of each condition type may apply to a resource at any point in time.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+              etag:
+                description: Etag - A unique string that changes whenever the resource is updated.
+                type: string
+              id:
+                description: ID of this PublicIPAddress.
+                type: string
+              message:
+                description: A Message providing detail about the state of this PublicIPAddress, if any.
+                type: string
+              purpose:
+                description: Purpose - A string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+                type: string
+              resourceGuid:
+                description: ResourceGUID - The GUID of this PublicIPAddress.
+                type: string
+              state:
+                description: State of this PublicIPAddress.
+                type: string
+              type:
+                description: Type of this PublicIPAddress.
+                type: string
+            type: object
+        required:
+        - spec
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+status:
+  acceptedNames:
+    kind: ""
+    plural: ""
+  conditions: []
+  storedVersions: []

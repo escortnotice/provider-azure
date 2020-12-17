@@ -20,7 +20,62 @@ package v1alpha3
 
 import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 
-// GetCondition of this ApplicationSecurityGroup.
+// GetCondition of this PublicIPAddress.
+func (mg *PublicIPAddress) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this PublicIPAddress.
+func (mg *PublicIPAddress) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this PublicIPAddress.
+func (mg *PublicIPAddress) GetProviderConfigReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderConfigReference
+}
+
+/*
+GetProviderReference of this PublicIPAddress.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *PublicIPAddress) GetProviderReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this PublicIPAddress.
+func (mg *PublicIPAddress) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this PublicIPAddress.
+func (mg *PublicIPAddress) SetConditions(c ...runtimev1alpha1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this PublicIPAddress.
+func (mg *PublicIPAddress) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this PublicIPAddress.
+func (mg *PublicIPAddress) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderConfigReference = r
+}
+
+/*
+SetProviderReference of this PublicIPAddress.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *PublicIPAddress) SetProviderReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this PublicIPAddress.
+func (mg *PublicIPAddress) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
+	mg.Spec.WriteConnectionSecretToReference = r
+}
+  // GetCondition of this ApplicationSecurityGroup.
 func (mg *ApplicationSecurityGroup) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
 	return mg.Status.GetCondition(ct)
 }
@@ -34,11 +89,7 @@ func (mg *ApplicationSecurityGroup) GetDeletionPolicy() runtimev1alpha1.Deletion
 func (mg *ApplicationSecurityGroup) GetProviderConfigReference() *runtimev1alpha1.Reference {
 	return mg.Spec.ProviderConfigReference
 }
-
-/*
-GetProviderReference of this ApplicationSecurityGroup.
-Deprecated: Use GetProviderConfigReference.
-*/
+// GetProviderReference of this ApplicationSecurityGroup.
 func (mg *ApplicationSecurityGroup) GetProviderReference() *runtimev1alpha1.Reference {
 	return mg.Spec.ProviderReference
 }
@@ -62,7 +113,6 @@ func (mg *ApplicationSecurityGroup) SetDeletionPolicy(r runtimev1alpha1.Deletion
 func (mg *ApplicationSecurityGroup) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
 	mg.Spec.ProviderConfigReference = r
 }
-
 /*
 SetProviderReference of this ApplicationSecurityGroup.
 Deprecated: Use SetProviderConfigReference.
