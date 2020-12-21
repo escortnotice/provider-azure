@@ -84,13 +84,13 @@ func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.Publ
 	if nil != sg.Spec.Properties.DNSSettings && !reflect.DeepEqual(azure.ToString(sg.Spec.Properties.DNSSettings.DomainNameLabel), azure.ToString(az.DNSSettings.DomainNameLabel)){
 		return true
 	}
-	if !reflect.DeepEqual(sg.Spec.Properties.PublicIPAllocationMethod, az.PublicIPAllocationMethod) {
+	if !reflect.DeepEqual(networkmgmt.IPAllocationMethod(sg.Spec.Properties.PublicIPAllocationMethod), networkmgmt.IPAllocationMethod(az.PublicIPAllocationMethod)) {
 		return true
 	}
 	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location), az.Location) {
 		return true
 	}
-	if !reflect.DeepEqual(azure.ToStringPtrMap(sg.Spec.Tags), az.Tags) {
+	if !reflect.DeepEqual(sg.Spec.Tags, azure.ToStringMap(az.Tags)) {
 		return true
 	}
 
