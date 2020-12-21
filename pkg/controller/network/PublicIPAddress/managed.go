@@ -127,7 +127,7 @@ func (e *external) Update(ctx context.Context, mg resource.Managed) (managed.Ext
 	}
 	az, err := e.client.Get(ctx, v.Spec.ResourceGroupName, v.ObjectMeta.Name, "")
 	if err != nil {
-		return managed.ExternalUpdate{}, errors.Wrap(err, errNotAPublicIPAddress)
+		return managed.ExternalUpdate{}, errors.Wrap(err, errGetPublicIPAddress)
 	}
 	if publicipaddreess.PublicIpAdressNeedsUpdate(v, az) {
 		pub := publicipaddreess.NewPublicIpAddressParameters(v)

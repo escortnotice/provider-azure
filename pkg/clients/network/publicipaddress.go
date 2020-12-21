@@ -78,6 +78,15 @@ func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.Publ
 	if !reflect.DeepEqual(azure.ToStringPtr(sg.Name), az.Name) {
 		return true
 	}
+	if !reflect.DeepEqual(azure.ToInt32Ptr(sg.Spec.Properties.IdleTimeoutInMinutes), az.IdleTimeoutInMinutes) {
+		return true
+	}
+	if nil != sg.Spec.Properties.DNSSettings && !reflect.DeepEqual(azure.ToString(sg.Spec.Properties.DNSSettings.DomainNameLabel), azure.ToString(az.DNSSettings.DomainNameLabel)){
+		return true
+	}
+	if !reflect.DeepEqual(sg.Spec.Properties.PublicIPAllocationMethod, az.PublicIPAllocationMethod) {
+		return true
+	}
 	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location), az.Location) {
 		return true
 	}
@@ -87,3 +96,4 @@ func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.Publ
 
 	return false
 }
+
