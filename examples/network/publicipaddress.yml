@@ -1,0 +1,25 @@
+apiVersion: network.azure.crossplane.io/v1alpha3
+kind: PublicIPAddress
+metadata:
+  name: testpublicip
+spec:
+  location: centralus
+  resourceGroupName: test-rg
+  providerRef:
+    name: azure-provider
+  resourceGroupNameRef:
+    name: test-rg
+  tags:
+    owner: "Test"
+  properties:
+    idleTimeoutInMinutes: 4
+    publicIPAddressVersion: "IPv4"
+    publicIPAllocationMethod: "Static"
+    iPAddressSkuName: "Standard"
+    dnsSettings:
+      domainNameLabel: "test1"
+      fqdn: "test1.centralus.cloudapp.azure.com"
+    
+      
+
+          
