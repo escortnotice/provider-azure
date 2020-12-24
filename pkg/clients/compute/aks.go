@@ -19,6 +19,7 @@ package compute
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2019-12-01/compute"
 	"time"
 
 	"github.com/Azure/azure-sdk-for-go/services/authorization/mgmt/2015-07-01/authorization"
@@ -66,6 +67,7 @@ type AggregateClient struct {
 	Applications      graphrbac.ApplicationsClient
 	ServicePrincipals graphrbac.ServicePrincipalsClient
 	RoleAssignments   authorization.RoleAssignmentsClient
+	vmClient          compute.VirtualMachine
 }
 
 // NewAggregateClient produces the various clients used by the AKS controller.
