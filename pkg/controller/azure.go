@@ -39,7 +39,7 @@ import (
 	"github.com/crossplane/provider-azure/pkg/controller/resourcegroup"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/account"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/container"
-	"github.com/crossplane/provider-azure/pkg/controller/network/PublicIPAddress"
+	"github.com/crossplane/provider-azure/pkg/controller/network/publicipaddress"
 )
 
 // Setup Azure controllers.
@@ -63,7 +63,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
     SecurityGroup.Setup,
 		AzureFirewall.Setup,
 		applicationsecuritygroup.Setup,
-		PublicIPAddress.Setup,
+		publicipaddress.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
 			return err

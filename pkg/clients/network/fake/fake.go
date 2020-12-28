@@ -86,7 +86,7 @@ func (c *MockSubnetsClient) Get(ctx context.Context, resourceGroupName string, v
 func (c *MockSubnetsClient) List(ctx context.Context, resourceGroupName string, virtualNetworkName string) (result network.SubnetListResultPage, err error) {
 	return c.MockList(ctx, resourceGroupName, virtualNetworkName)
 }
-//for public ip address test cases
+// for public ip address test cases
 var _ networkapi.PublicIPAddressesClientAPI = &MockPublicIPAddressClient{}
 
 // MockPublicIPAddressClient  is a fake implementation of network.PublicIPAddressesClientAPI.
