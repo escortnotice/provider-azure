@@ -261,7 +261,7 @@ type PublicIPAddressSpec struct {
 	// group.
 	ResourceGroupNameRef *runtimev1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
 
-	//PublicIPAddressPropertiesFormat - Properties of the public ip address.
+	// PublicIPAddressPropertiesFormat - Properties of the public ip address.
 	Properties PublicIPAddressPropertiesFormat `json:"properties,omitempty"`
 	// Name - READ-ONLY; Resource name.
 	Name string `json:"name,omitempty"`

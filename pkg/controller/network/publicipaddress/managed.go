@@ -1,3 +1,4 @@
+
 /*
 Copyright 2019 The Crossplane Authors.
 
@@ -13,7 +14,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package PublicIPAddress
+package publicipaddress
 
 import (
 	"context"
@@ -35,11 +36,11 @@ import (
 
 // Error strings.
 const (
-	errNotAPublicIPAddress   = "managed resource is not an PublicIPAddress"
-	errCreatePublicIPAddress = "cannot create PublicIPAddress"
-	errUpdatePublicIPAddress = "cannot update PublicIPAddress"
-	errGetPublicIPAddress    = "cannot get PublicIPAddress"
-	errDeletePublicIPAddress = "cannot delete PublicIPAddress"
+	errNotAPublicIPAddress   = "managed resource is not an publicipaddress"
+	errCreatePublicIPAddress = "cannot create publicipaddress"
+	errUpdatePublicIPAddress = "cannot update publicipaddress"
+	errGetPublicIPAddress    = "cannot get publicipaddress"
+	errDeletePublicIPAddress = "cannot delete publicipaddress"
 )
 
 // Setup adds a controller that reconciles PublicIP Address.

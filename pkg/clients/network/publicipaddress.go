@@ -54,7 +54,7 @@ func NewPublicIpAddressParameters(pub *v1alpha3.PublicIPAddress) networkmgmt.Pub
 func setSKU(skuName v1alpha3.PublicIPAddressSkuName) *networkmgmt.PublicIPAddressSku {
 	if skuName == "" {
 		return &networkmgmt.PublicIPAddressSku{
-			Name: networkmgmt.PublicIPAddressSkuName("Basic"),
+			Name: "Basic",
 		}
 	}
 	return &networkmgmt.PublicIPAddressSku{
@@ -84,7 +84,7 @@ func PublicIpAdressNeedsUpdate(sg *v1alpha3.PublicIPAddress, az networkmgmt.Publ
 	if nil != sg.Spec.Properties.DNSSettings && !reflect.DeepEqual(azure.ToString(sg.Spec.Properties.DNSSettings.DomainNameLabel), azure.ToString(az.DNSSettings.DomainNameLabel)){
 		return true
 	}
-	if !reflect.DeepEqual(networkmgmt.IPAllocationMethod(sg.Spec.Properties.PublicIPAllocationMethod), networkmgmt.IPAllocationMethod(az.PublicIPAllocationMethod)) {
+	if !reflect.DeepEqual(networkmgmt.IPAllocationMethod(sg.Spec.Properties.PublicIPAllocationMethod), az.PublicIPAllocationMethod) {
 		return true
 	}
 	if !reflect.DeepEqual(azure.ToStringPtr(sg.Spec.Location), az.Location) {

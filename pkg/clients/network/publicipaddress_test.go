@@ -27,19 +27,19 @@ import (
 
 	"github.com/crossplane/provider-azure/apis/network/v1alpha3"
 	azure "github.com/crossplane/provider-azure/pkg/clients"
-)
+)		
 
 var (
-	uidIp      = types.UID("definitely-a-uuid")
-	locationIp = "cool-location"
-	tagsIp     = map[string]string{"one": "test", "two": "test"}
+	uidIP      = types.UID("definitely-a-uuid")
+	locationIP = "cool-location"
+	tagsIP     = map[string]string{"one": "test", "two": "test"}
 
-	idIp               = "a-very-cool-id"
-	etagIp             = "a-very-cool-etag"
-	resourcetypeIp     = "resource-type"
-	domainNameLabel    = "cooldomain"
-	fqdn               =  "cooldomain.fqdn.net"
-	name               = "cool-ip"
+	idIP            = "a-very-cool-id"
+	etagIP          = "a-very-cool-etag"
+	resourcetypeIP	= "resource-type"
+	domainNameLabel = "cooldomain"
+	fqdn            =  "cooldomain.fqdn.net"
+	name            = "cool-ip"
 )
 
 func TestNewPublicIpAddressParameters(t *testing.T) {
@@ -53,7 +53,7 @@ func TestNewPublicIpAddressParameters(t *testing.T) {
 			r: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -68,14 +68,14 @@ func TestNewPublicIpAddressParameters(t *testing.T) {
 						PublicIPAllocationMethod   :
 							v1alpha3.Static,
 					},
-					Location: locationIp,
-					Tags:     tagsIp,
+					Location: locationIP,
+					Tags:     tagsIP,
 					Name:     name,
 				},
 			},
 			want: networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -122,7 +122,7 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 			kube: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -136,14 +136,14 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 						IdleTimeoutInMinutes  : 4,
 						PublicIPAllocationMethod   : v1alpha3.Static,
 					},
-					Location: locationIp,
+					Location: locationIP,
 					Tags:     map[string]string{"three": "test"},
 					Name:     name,
 				},
 			},
 			az : networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -167,7 +167,7 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 			kube: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -181,14 +181,14 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 						IdleTimeoutInMinutes  : 4,
 						PublicIPAllocationMethod   : v1alpha3.Static,
 					},
-					Location: locationIp,
-					Tags:     map[string]string(tagsIp),
+					Location: locationIP,
+					Tags:     tagsIP,
 					Name:     name,
 				},
 			},
 			az : networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -212,7 +212,7 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 			kube: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -226,14 +226,14 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 						IdleTimeoutInMinutes  : 8,
 						PublicIPAllocationMethod   : v1alpha3.Static,
 					},
-					Location: locationIp,
-					Tags:     map[string]string(tagsIp),
+					Location: locationIP,
+					Tags:     tagsIP,
 					Name:     name,
 				},
 			},
 			az : networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -257,7 +257,7 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 			kube: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -271,14 +271,14 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 						IdleTimeoutInMinutes  : 4,
 						PublicIPAllocationMethod   : v1alpha3.Static,
 					},
-					Location: locationIp,
+					Location: locationIP,
 					Tags:     map[string]string{"three": "test"},
 					Name:     name,
 				},
 			},
 			az : networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -302,7 +302,7 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 			kube: &v1alpha3.PublicIPAddress{
 				ObjectMeta: metav1.ObjectMeta{
 					Name:       name,
-					UID:        uidIp,
+					UID:        uidIP,
 					Finalizers: []string{},
 				},
 				Spec: v1alpha3.PublicIPAddressSpec{
@@ -316,14 +316,14 @@ func TestPublicIpAdressNeedsUpdate(t *testing.T) {
 						IdleTimeoutInMinutes  : 4,
 						PublicIPAllocationMethod   : v1alpha3.Static,
 					},
-					Location: locationIp,
-					Tags:     tagsIp,
+					Location: locationIP,
+					Tags:     tagsIP,
 					Name:     name,
 				},
 			},
 			az: networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Tags:     azure.ToStringPtrMap(tagsIp),
+				Location: azure.ToStringPtr(locationIP),
+				Tags:     azure.ToStringPtrMap(tagsIP),
 				Name: azure.ToStringPtr(name),
 				Sku: &networkmgmt.PublicIPAddressSku{
 					Name: networkmgmt.PublicIPAddressSkuNameBasic,
@@ -370,10 +370,10 @@ func TestUpdatePublicIpAddressStatusFromAzure(t *testing.T) {
 		{
 			name: "SuccessfulFull",
 			r: networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Etag:     azure.ToStringPtr(etagIp),
-				ID:       azure.ToStringPtr(idIp),
-				Type:     azure.ToStringPtr(resourcetypeIp),
+				Location: azure.ToStringPtr(locationIP),
+				Etag:     azure.ToStringPtr(etagIP),
+				ID:       azure.ToStringPtr(idIP),
+				Type:     azure.ToStringPtr(resourcetypeIP),
 				Tags:     azure.ToStringPtrMap(nil),
 				PublicIPAddressPropertiesFormat : &networkmgmt.PublicIPAddressPropertiesFormat{
 					PublicIPAddressVersion: networkmgmt.IPv4,
@@ -384,37 +384,37 @@ func TestUpdatePublicIpAddressStatusFromAzure(t *testing.T) {
 						Fqdn: azure.ToStringPtr(fqdn),
 					},
 					ProvisioningState: azure.ToStringPtr("Succeeded"),
-					ResourceGUID:      azure.ToStringPtr(string(uidIp)),
+					ResourceGUID:      azure.ToStringPtr(string(uidIP)),
 
 				},
 			},
 			want: v1alpha3.PublicIPAddressStatus{
 					State:        string(networkmgmt.Succeeded),
-					ID:           idIp,
-					Etag:         etagIp,
-					Type:         resourcetypeIp,
-					ResourceGUID: string(uidIp),
+					ID:           idIP,
+					Etag:         etagIP,
+					Type:         resourcetypeIP,
+					ResourceGUID: string(uidIP),
 				},
 			},
 		{
 			name: "SuccessfulPartial",
 			r: networkmgmt.PublicIPAddress{
-				Location: azure.ToStringPtr(locationIp),
-				Type:     azure.ToStringPtr(resourcetypeIp),
+				Location: azure.ToStringPtr(locationIP),
+				Type:     azure.ToStringPtr(resourcetypeIP),
 				Tags:     azure.ToStringPtrMap(nil),
 				PublicIPAddressPropertiesFormat : &networkmgmt.PublicIPAddressPropertiesFormat{
 					PublicIPAddressVersion: networkmgmt.IPv4,
 					PublicIPAllocationMethod: networkmgmt.Static,
 					IdleTimeoutInMinutes: azure.ToInt32Ptr(4),
 					ProvisioningState: azure.ToStringPtr("Succeeded"),
-					ResourceGUID:      azure.ToStringPtr(string(uidIp)),
+					ResourceGUID:      azure.ToStringPtr(string(uidIP)),
 
 				},
 			},
 			want: v1alpha3.PublicIPAddressStatus{
 				State:        string(networkmgmt.Succeeded),
-				ResourceGUID: string(uidIp),
-				Type:         resourcetypeIp,
+				ResourceGUID: string(uidIP),
+				Type:         resourcetypeIP,
 			},
 		},
 	}

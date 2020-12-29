@@ -1,5 +1,5 @@
 apiVersion: network.azure.crossplane.io/v1alpha3
-kind: PublicIPAddress
+kind: publicipaddress
 metadata:
   name: testpublicip
 spec:
