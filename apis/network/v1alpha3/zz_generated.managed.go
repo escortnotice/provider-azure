@@ -20,6 +20,18 @@ package v1alpha3
 
 import runtimev1alpha1 "github.com/crossplane/crossplane-runtime/apis/core/v1alpha1"
 
+// GetCondition of this RouteTable.
+func (mg *RouteTable) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
+	return mg.Status.GetCondition(ct)
+}
+
+// GetDeletionPolicy of this RouteTable.
+func (mg *RouteTable) GetDeletionPolicy() runtimev1alpha1.DeletionPolicy {
+	return mg.Spec.DeletionPolicy
+}
+
+// GetProviderConfigReference of this RouteTable.
+func (mg *RouteTable) GetProviderConfigReference() *runtimev1alpha1.Reference {
 // GetCondition of this PublicIPAddress.
 func (mg *PublicIPAddress) GetCondition(ct runtimev1alpha1.ConditionType) runtimev1alpha1.Condition {
 	return mg.Status.GetCondition(ct)
@@ -36,6 +48,30 @@ func (mg *PublicIPAddress) GetProviderConfigReference() *runtimev1alpha1.Referen
 }
 
 /*
+GetProviderReference of this RouteTable.
+Deprecated: Use GetProviderConfigReference.
+*/
+func (mg *RouteTable) GetProviderReference() *runtimev1alpha1.Reference {
+	return mg.Spec.ProviderReference
+}
+
+// GetWriteConnectionSecretToReference of this RouteTable.
+func (mg *RouteTable) GetWriteConnectionSecretToReference() *runtimev1alpha1.SecretReference {
+	return mg.Spec.WriteConnectionSecretToReference
+}
+
+// SetConditions of this RouteTable.
+func (mg *RouteTable) SetConditions(c ...runtimev1alpha1.Condition) {
+	mg.Status.SetConditions(c...)
+}
+
+// SetDeletionPolicy of this RouteTable.
+func (mg *RouteTable) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
+	mg.Spec.DeletionPolicy = r
+}
+
+// SetProviderConfigReference of this RouteTable.
+func (mg *RouteTable) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
 GetProviderReference of this PublicIPAddress.
 Deprecated: Use GetProviderConfigReference.
 */
@@ -60,10 +96,20 @@ func (mg *PublicIPAddress) SetDeletionPolicy(r runtimev1alpha1.DeletionPolicy) {
 
 // SetProviderConfigReference of this PublicIPAddress.
 func (mg *PublicIPAddress) SetProviderConfigReference(r *runtimev1alpha1.Reference) {
+
 	mg.Spec.ProviderConfigReference = r
 }
 
 /*
+SetProviderReference of this RouteTable.
+Deprecated: Use SetProviderConfigReference.
+*/
+func (mg *RouteTable) SetProviderReference(r *runtimev1alpha1.Reference) {
+	mg.Spec.ProviderReference = r
+}
+
+// SetWriteConnectionSecretToReference of this RouteTable.
+func (mg *RouteTable) SetWriteConnectionSecretToReference(r *runtimev1alpha1.SecretReference) {
 SetProviderReference of this PublicIPAddress.
 Deprecated: Use SetProviderConfigReference.
 */

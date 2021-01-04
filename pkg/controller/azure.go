@@ -17,6 +17,7 @@ limitations under the License.
 package controller
 
 import (
+	"github.com/crossplane/provider-azure/pkg/controller/network/RouteTable"
 	"github.com/crossplane/provider-azure/pkg/controller/network/AzureFirewall"
 	"github.com/crossplane/provider-azure/pkg/controller/network/applicationsecuritygroup"
 	SecurityGroup "github.com/crossplane/provider-azure/pkg/controller/network/securitygroup"
@@ -60,6 +61,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		resourcegroup.Setup,
 		account.Setup,
 		container.Setup,
+		RouteTable.Setup,
     SecurityGroup.Setup,
 		AzureFirewall.Setup,
 		applicationsecuritygroup.Setup,
