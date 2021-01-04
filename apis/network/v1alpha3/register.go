@@ -53,16 +53,52 @@ var (
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
 
+
 // RouteTable type metadata.
 var (
 	RouteTableKind             = reflect.TypeOf(RouteTable{}).Name()
 	RouteTableGroupKind        = schema.GroupKind{Group: Group, Kind: RouteTableKind}.String()
 	RouteTableKindAPIVersion   = RouteTableKind + "." + SchemeGroupVersion.String()
 	RouteTableGroupVersionKind = SchemeGroupVersion.WithKind(RouteTableKind)
+
+// PublicIPAddress type metadata.
+var (
+	PublicIPAddressKind             = reflect.TypeOf(PublicIPAddress{}).Name()
+	PublicIPAddressGroupKind        = schema.GroupKind{Group: Group, Kind: PublicIPAddressKind}.String()
+	PublicIPAddressKindAPIVersion   = PublicIPAddressKind + "." + SchemeGroupVersion.String()
+	PublicIPAddressGroupVersionKind = SchemeGroupVersion.WithKind(PublicIPAddressKind)
+)
+
+// SecurityGroup type Metadata.
+var (
+	SecurityGroupKind             = reflect.TypeOf(SecurityGroup{}).Name()
+	SecurityGroupGroupKind        = schema.GroupKind{Group: Group, Kind: SecurityGroupKind}.String()
+	SecurityGroupKindAPIVersion   = SecurityGroupKind + "." + SchemeGroupVersion.String()
+	SecurityGroupGroupVersionKind = SchemeGroupVersion.WithKind(SecurityGroupKind)
+)
+
+// AzureFirewall type Metadata.
+var (
+	AzureFirewallKind             = reflect.TypeOf(AzureFirewall{}).Name()
+	AzureFirewallGroupKind        = schema.GroupKind{Group: Group, Kind: AzureFirewallKind}.String()
+	AzureFirewallKindAPIVersion   = AzureFirewallKind + "." + SchemeGroupVersion.String()
+	AzureFirewallGroupVersionKind = SchemeGroupVersion.WithKind(AzureFirewallKind)
+)
+// ApplicationSecurityGroup type metadata.
+var (
+	ApplicationSecurityGroupKind             = reflect.TypeOf(ApplicationSecurityGroup{}).Name()
+	ApplicationSecurityGroupGroupKind        = schema.GroupKind{Group: Group, Kind: ApplicationSecurityGroupKind}.String()
+	ApplicationSecurityGroupKindAPIVersion   = ApplicationSecurityGroupKind + "." + SchemeGroupVersion.String()
+	ApplicationSecurityGroupGroupVersionKind = SchemeGroupVersion.WithKind(ApplicationSecurityGroupKind)
 )
 
 func init() {
 	SchemeBuilder.Register(&VirtualNetwork{}, &VirtualNetworkList{})
 	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
 	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
+	SchemeBuilder.Register(&SecurityGroup{}, &SecurityGroupList{})
+	SchemeBuilder.Register(&SecurityRule{})
+	SchemeBuilder.Register(&AzureFirewall{}, &AzureFirewallList{})
+	SchemeBuilder.Register(&ApplicationSecurityGroup{}, &ApplicationSecurityGroupList{})
+	SchemeBuilder.Register(&PublicIPAddress{}, &PublicIPAddressList{})
 }

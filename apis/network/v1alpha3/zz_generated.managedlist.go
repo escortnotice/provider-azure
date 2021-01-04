@@ -20,8 +20,38 @@ package v1alpha3
 
 import resource "github.com/crossplane/crossplane-runtime/pkg/resource"
 
+
 // GetItems of this RouteTableList.
 func (l *RouteTableList) GetItems() []resource.Managed {
+
+// GetItems of this PublicIPAddressList.
+func (l *PublicIPAddressList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+// GetItems of this ApplicationSecurityGroupList.
+func (l *ApplicationSecurityGroupList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this AzureFirewallList.
+func (l *AzureFirewallList) GetItems() []resource.Managed {
+	items := make([]resource.Managed, len(l.Items))
+	for i := range l.Items {
+		items[i] = &l.Items[i]
+	}
+	return items
+}
+
+// GetItems of this SecurityGroupList.
+func (l *SecurityGroupList) GetItems() []resource.Managed {
 	items := make([]resource.Managed, len(l.Items))
 	for i := range l.Items {
 		items[i] = &l.Items[i]

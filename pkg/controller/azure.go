@@ -18,6 +18,9 @@ package controller
 
 import (
 	"github.com/crossplane/provider-azure/pkg/controller/network/RouteTable"
+	"github.com/crossplane/provider-azure/pkg/controller/network/AzureFirewall"
+	"github.com/crossplane/provider-azure/pkg/controller/network/applicationsecuritygroup"
+	SecurityGroup "github.com/crossplane/provider-azure/pkg/controller/network/securitygroup"
 	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/crossplane/crossplane-runtime/pkg/logging"
@@ -37,6 +40,7 @@ import (
 	"github.com/crossplane/provider-azure/pkg/controller/resourcegroup"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/account"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/container"
+	"github.com/crossplane/provider-azure/pkg/controller/network/publicipaddress"
 )
 
 // Setup Azure controllers.
@@ -58,6 +62,10 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		account.Setup,
 		container.Setup,
 		RouteTable.Setup,
+    SecurityGroup.Setup,
+		AzureFirewall.Setup,
+		applicationsecuritygroup.Setup,
+		publicipaddress.Setup,
 	} {
 		if err := setup(mgr, l); err != nil {
 			return err
