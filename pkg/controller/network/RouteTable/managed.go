@@ -119,9 +119,33 @@ func (e external) Create(ctx context.Context, mg resource.Managed) (managed.Exte
 }
 
 func (e external) Update(ctx context.Context, mg resource.Managed) (managed.ExternalUpdate, error) {
-	panic("implement me")
+	rt, ok := mg.(*v1alpha3.RouteTable)
+	if !ok {
+		return managed.ExternalUpdate{}, errors.New(errNotRouteTable)
+	}
+
+	az, err := e.client.Get(ctx, rt.Spec.ResourceGroupName, meta.GetExternalName(rt), "")
+	if err != nil {
+		return managed.ExternalUpdate{}, errors.Wrap(err, errGetRouteTable)
+	}
+
+	if network.RouteTableNeedsUpdate(rt, az) {
+		rtable := network.NewRouteTableParameters(rt)
+		if _, err := e.client.CreateOrUpdate(ctx, rt.Spec.ResourceGroupName, meta.GetExternalName(rt), rtable); err != nil {
+			return managed.ExternalUpdate{}, errors.Wrap(err, errUpdateRouteTable)
+		}
+	}
+	return managed.ExternalUpdate{}, nil
 }
 
 func (e external) Delete(ctx context.Context, mg resource.Managed) error {
-	panic("implement me")
+	s, ok := mg.(*v1alpha3.RouteTable)
+	if !ok {
+		return errors.New(errNotRouteTable)
+	}
+
+	mg.SetConditions(runtimev1alpha1.Deleting())
+
+	_, err := e.client.Delete(ctx, s.Spec.ResourceGroupName, meta.GetExternalName(s))
+	return errors.Wrap(resource.Ignore(azureclients.IsNotFound, err), errDeleteRouteTable)
 }
