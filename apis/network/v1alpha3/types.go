@@ -225,3 +225,113 @@ type SubnetList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Subnet `json:"items"`
 }
+
+// A RouteTableSpec represents the observed state of a RouteTable.
+type RouteTableSpec struct {
+	runtimev1alpha1.ResourceSpec `json:",inline"`
+
+	// ResourceGroupName - Name of the RouteTable's resource group.
+	ResourceGroupName string `json:"resourceGroupName,omitempty"`
+
+	// ResourceGroupNameRef - A reference to the the RouteTable's resource group.
+	ResourceGroupNameRef *runtimev1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
+
+	// ResourceGroupNameSelector - Selects a reference to the the RouteTable's
+	// resource group.
+	ResourceGroupNameSelector *runtimev1alpha1.Selector `json:"resourceGroupNameSelector,omitempty"`
+
+	// RouteTablePropertiesFormat - Properties of the route table.
+	Properties RouteTablePropertiesFormat `json:"properties,omitempty"`
+	// Name - Resource name.
+	Name string `json:"name,omitempty"`
+
+	// Location - Resource location.
+	Location string `json:"location,omitempty"`
+	// Tags - Resource tags.
+	Tags map[string]string `json:"tags"`
+}
+
+// RouteTablePropertiesFormat route Table resource.
+type RouteTablePropertiesFormat struct {
+	// Routes - Collection of routes contained within a route table.
+	Routes []Route `json:"routes,omitempty"`
+	// Subnets - A collection of references to subnets.
+	Subnets []Subnet `json:"subnets,omitempty"`
+	// DisableBgpRoutePropagation - Gets or sets whether to disable the routes learned by BGP on that route table. True means disable.
+	DisableBgpRoutePropagation bool `json:"disableBgpRoutePropagation,omitempty"`
+	// ProvisioningState - The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+	ProvisioningState string `json:"provisioningState,omitempty"`
+}
+
+// Route route resource.
+type Route struct {
+	// RoutePropertiesFormat - Properties of the route.
+	Properties RoutePropertiesFormat `json:"properties,omitempty"`
+	// Name - The name of the resource that is unique within a resource group. This name can be used to access the resource.
+	Name string `json:"name,omitempty"`
+	// Etag - A unique read-only string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+	// ID - Resource ID.
+	ID string `json:"id,omitempty"`
+}
+
+// RoutePropertiesFormat route resource.
+type RoutePropertiesFormat struct {
+	// AddressPrefix - The destination CIDR to which the route applies.
+	AddressPrefix string `json:"addressPrefix,omitempty"`
+	// NextHopType - The type of Azure hop the packet should be sent to. Possible values include: 'RouteNextHopTypeVirtualNetworkGateway', 'RouteNextHopTypeVnetLocal', 'RouteNextHopTypeInternet', 'RouteNextHopTypeVirtualAppliance', 'RouteNextHopTypeNone'
+	NextHopType string `json:"nextHopType,omitempty"`
+	// NextHopIPAddress - The IP address packets should be forwarded to. Next hop values are only allowed in routes where the next hop type is VirtualAppliance.
+	NextHopIPAddress string `json:"nextHopIpAddress,omitempty"`
+	// ProvisioningState - The provisioning state of the resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+	ProvisioningState string `json:"provisioningState,omitempty"`
+}
+
+// A RouteTableStatus represents the observed state of a RouteTable.
+type RouteTableStatus struct {
+	runtimev1alpha1.ResourceStatus `json:",inline"`
+
+	// State of this RouteTable.
+	State string `json:"state,omitempty"`
+
+	// A Message providing detail about the state of this RouteTable, if any.
+	Message string `json:"message,omitempty"`
+
+	// Etag - A unique string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+
+	// ID of this RouteTable.
+	ID string `json:"id,omitempty"`
+
+	// Type - Resource type.
+	Type string `json:"type,omitempty"`
+
+	// Purpose - A string identifying the intention of use for this subnet based
+	// on delegations and other user-defined properties.
+	Purpose string `json:"purpose,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// A RouteTable is a managed resource that represents an Azure RouteTable.
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.state"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.location"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,azure}
+type RouteTable struct {
+	metav1.TypeMeta   `json:",inline"`
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	Spec   RouteTableSpec   `json:"spec"`
+	Status RouteTableStatus `json:"status,omitempty"`
+}
+
+// +kubebuilder:object:root=true
+
+// SubnetList contains a list of Subnet items
+type RouteTableList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+	Items           []RouteTable `json:"items"`
+}

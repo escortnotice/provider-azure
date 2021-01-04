@@ -53,7 +53,16 @@ var (
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
 
+// RouteTable type metadata.
+var (
+	RouteTableKind             = reflect.TypeOf(RouteTable{}).Name()
+	RouteTableGroupKind        = schema.GroupKind{Group: Group, Kind: RouteTableKind}.String()
+	RouteTableKindAPIVersion   = RouteTableKind + "." + SchemeGroupVersion.String()
+	RouteTableGroupVersionKind = SchemeGroupVersion.WithKind(RouteTableKind)
+)
+
 func init() {
 	SchemeBuilder.Register(&VirtualNetwork{}, &VirtualNetworkList{})
 	SchemeBuilder.Register(&Subnet{}, &SubnetList{})
+	SchemeBuilder.Register(&RouteTable{}, &RouteTableList{})
 }
