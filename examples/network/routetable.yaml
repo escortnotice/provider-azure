@@ -1,0 +1,23 @@
+apiVersion: network.azure.crossplane.io/v1alpha3
+kind: RouteTable
+metadata:
+  name: cerberus-routetable-test
+status:
+  id: d5e6f50a
+  resourceGuid: d5e6f50a-5204-4db1-b9de-c6b17240417d
+spec:
+  location: eastus
+  #reclaimPolicy: Delete
+  resourceGroupName: cerberus-squad
+  tags: 
+    one: "one" 
+    two: "two"
+  providerRef:
+    name: azure-provider
+  properties:
+    disableBgpRoutePropagation: true
+    routes:
+      - name: "route1"
+        properties:
+          addressPrefix: "10.0.3.0/24"
+          nextHopType: "VirtualNetworkGateway"
