@@ -19,6 +19,12 @@ spec:
   scope: Cluster
   versions:
   - additionalPrinterColumns:
+    - jsonPath: .status.conditions[?(@.type=='Ready')].status
+      name: READY
+      type: string
+    - jsonPath: .status.conditions[?(@.type=='Synced')].status
+      name: SYNCED
+      type: string
     - jsonPath: .status.state
       name: STATE
       type: string
@@ -31,7 +37,7 @@ spec:
     name: v1alpha3
     schema:
       openAPIV3Schema:
-        description: A RouteTable is a managed resource that represents an Azure RouteTable.
+        description: A RouteTable is a managed resource that represents an Azure RouteTable
         properties:
           apiVersion:
             description: 'APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
@@ -71,10 +77,10 @@ spec:
                       description: Route route resource.
                       properties:
                         etag:
-                          description: Etag - A unique read-only string that changes whenever the resource is updated.
+                          description: Etag - A unique string that changes whenever the resource is updated.
                           type: string
                         id:
-                          description: ID - Resource ID.
+                          description: ID of this Route.
                           type: string
                         name:
                           description: Name - The name of the resource that is unique within a resource group. This name can be used to access the resource.

@@ -17,8 +17,8 @@ limitations under the License.
 package controller
 
 import (
-	"github.com/crossplane/provider-azure/pkg/controller/network/RouteTable"
 	"github.com/crossplane/provider-azure/pkg/controller/network/AzureFirewall"
+	"github.com/crossplane/provider-azure/pkg/controller/network/RouteTable"
 	"github.com/crossplane/provider-azure/pkg/controller/network/applicationsecuritygroup"
 	SecurityGroup "github.com/crossplane/provider-azure/pkg/controller/network/securitygroup"
 	ctrl "sigs.k8s.io/controller-runtime"
@@ -35,12 +35,12 @@ import (
 	"github.com/crossplane/provider-azure/pkg/controller/database/postgresqlserver"
 	"github.com/crossplane/provider-azure/pkg/controller/database/postgresqlserverfirewallrule"
 	"github.com/crossplane/provider-azure/pkg/controller/database/postgresqlservervirtualnetworkrule"
+	"github.com/crossplane/provider-azure/pkg/controller/network/publicipaddress"
 	"github.com/crossplane/provider-azure/pkg/controller/network/subnet"
 	"github.com/crossplane/provider-azure/pkg/controller/network/virtualnetwork"
 	"github.com/crossplane/provider-azure/pkg/controller/resourcegroup"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/account"
 	"github.com/crossplane/provider-azure/pkg/controller/storage/container"
-	"github.com/crossplane/provider-azure/pkg/controller/network/publicipaddress"
 )
 
 // Setup Azure controllers.
@@ -62,7 +62,7 @@ func Setup(mgr ctrl.Manager, l logging.Logger) error {
 		account.Setup,
 		container.Setup,
 		RouteTable.Setup,
-    SecurityGroup.Setup,
+		SecurityGroup.Setup,
 		AzureFirewall.Setup,
 		applicationsecuritygroup.Setup,
 		publicipaddress.Setup,

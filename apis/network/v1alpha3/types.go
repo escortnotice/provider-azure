@@ -268,35 +268,15 @@ type Route struct {
 	Properties RoutePropertiesFormat `json:"properties,omitempty"`
 	// Name - The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
-	// Etag - A unique read-only string that changes whenever the resource is updated.
+	// Etag - A unique string that changes whenever the resource is updated.
+	Etag string `json:"etag,omitempty"`
+	// ID of this Route.
+	ID string `json:"id,omitempty"`
+}
 
 //Network Security Group structs
 // SecurityRuleProtocol enumerates the values for security rule protocol.
 type SecurityRuleProtocol string
-
-// ApplicationSecurityGroupPropertiesFormat application security group properties.
-/*type ApplicationSecurityGroupPropertiesFormat struct {
-	// ResourceGUID - READ-ONLY; The resource GUID property of the application security group resource. It uniquely identifies a resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
-	ResourceGUID string `json:"resourceGuid,omitempty"`
-	// ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
-	ProvisioningState string `json:"provisioningState,omitempty"`
-}*/
-
-// ApplicationSecurityGroup an application security group in a resource group used in Network Security Group.
-/*type ApplicationSecurityGroup struct {
-	// ApplicationSecurityGroupPropertiesFormat - Properties of the application security group.
-	Properties ApplicationSecurityGroupPropertiesFormat `json:"properties,omitempty"`
-	// Etag - READ-ONLY; A unique read-only string that changes whenever the resource is updated.
-	Etag string `json:"etag,omitempty"`
-	// ID - Resource ID.
-	ID string `json:"id,omitempty"`
-	// Name - READ-ONLY; Resource name.
-	Name string `json:"name,omitempty"`
-	// Type - READ-ONLY; Resource type.
-	Type string `json:"type,omitempty"`
-	// Location - Resource location.
-	Location string `json:"location,omitempty"`
-}*/
 
 // SecurityRuleAccess enumerates the values for security rule access.
 type SecurityRuleAccess string
@@ -595,7 +575,7 @@ type RouteTableStatus struct {
 // +kubebuilder:object:root=true
 
 // A RouteTable is a managed resource that represents an Azure RouteTable.
-  
+
 // AzureFirewallApplicationRuleCollectionPropertiesFormat properties of the application rule collection.
 type AzureFirewallApplicationRuleCollectionPropertiesFormat struct {
 	// Priority - Priority of the application rule collection resource.
@@ -801,7 +781,6 @@ type ApplicationSecurityGroup struct {
 
 	Spec   ApplicationSecurityGroupSpec   `json:"spec"`
 	Status ApplicationSecurityGroupStatus `json:"status,omitempty"`
-
 }
 
 // ApplicationSecurityGroupStatus represents the observed state of a ApplicationSecurityGroup.
@@ -814,12 +793,12 @@ type ApplicationSecurityGroupStatus struct {
 
 	// Etag - A unique string that changes whenever the resource is updated.
 	Etag string `json:"etag,omitempty"`
-  	// ID of this ApplicationSecurityGroup.
+	// ID of this ApplicationSecurityGroup.
 	ID string `json:"id,omitempty"`
-  	// Purpose - A string identifying the intention of use for this subnet based
+	// Purpose - A string identifying the intention of use for this subnet based
 	// on delegations and other user-defined properties.
 	Purpose string `json:"purpose,omitempty"`
-  	// Type of this ApplicationSecurityGroup.
+	// Type of this ApplicationSecurityGroup.
 	Type string `json:"type,omitempty"`
 }
 
@@ -857,8 +836,9 @@ type ApplicationSecurityGroupPropertiesFormat struct {
 	// ProvisioningState - READ-ONLY; The provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
+
 // +kubebuilder:object:root=true
-  // ApplicationSecurityGroupList contains a list of ApplicationSecurityGroup items
+// ApplicationSecurityGroupList contains a list of ApplicationSecurityGroup items
 type ApplicationSecurityGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -866,7 +846,7 @@ type ApplicationSecurityGroupList struct {
 }
 
 // +kubebuilder:object:root=true
-// A PublicIPAddress is a managed resource that represents an Azure PublicIPAddress
+// A RouteTable is a managed resource that represents an Azure RouteTable
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.state"
@@ -884,21 +864,32 @@ type RouteTable struct {
 
 // +kubebuilder:object:root=true
 
-// SubnetList contains a list of Subnet items
+// RouteTableList contains a list of RouteTable items
 type RouteTableList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTable `json:"items"`
 }
 
+// +kubebuilder:object:root=true
+// A PublicIPAddress is a managed resource that represents an Azure PublicIPAddress
+// +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
+// +kubebuilder:printcolumn:name="STATE",type="string",JSONPath=".status.state"
+// +kubebuilder:printcolumn:name="LOCATION",type="string",JSONPath=".spec.location"
+// +kubebuilder:printcolumn:name="AGE",type="date",JSONPath=".metadata.creationTimestamp"
+// +kubebuilder:subresource:status
+// +kubebuilder:resource:scope=Cluster,categories={crossplane,managed,azure}
 type PublicIPAddress struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec   PublicIPAddressSpec   `json:"spec"`
-	Status PublicIPAddressStatus `json:"status,omitempty"`
+	Spec              PublicIPAddressSpec   `json:"spec"`
+	Status            PublicIPAddressStatus `json:"status,omitempty"`
 }
+
 // PublicIPAddressSkuName enumerates the values for public ip address sku name.
 type PublicIPAddressSkuName string
+
 const (
 	// PublicIPAddressSkuNameBasic ...
 	PublicIPAddressSkuNameBasic PublicIPAddressSkuName = "Basic"
@@ -930,8 +921,8 @@ type PublicIPAddressSpec struct {
 //  PublicIPAddressPropertiesFormat Public IPAddress properties.
 type PublicIPAddressPropertiesFormat struct {
 	// PublicIPAllocationMethod - The public IP allocation method. Possible values are: 'Static' and 'Dynamic'. Possible values include: 'Static', 'Dynamic'
-	PublicIPAllocationMethod IPAllocationMethod `json:"publicIPAllocationMethod"`
-	IPAddressSkuName PublicIPAddressSkuName `json:"iPAddressSkuName,omitempty"`
+	PublicIPAllocationMethod IPAllocationMethod     `json:"publicIPAllocationMethod"`
+	IPAddressSkuName         PublicIPAddressSkuName `json:"iPAddressSkuName,omitempty"`
 	// PublicIPAddressVersion - The public IP address version. Possible values include: 'IPv4', 'IPv6'
 	PublicIPAddressVersion IPVersion `json:"publicIPAddressVersion,omitempty"`
 	// DNSSettings - The FQDN of the DNS record associated with the public IP address.
@@ -961,6 +952,7 @@ type PublicIPAddressDNSSettings struct {
 	// ReverseFqdn - Gets or Sets the Reverse FQDN. A user-visible, fully qualified domain name that resolves to this public IP address. If the reverseFqdn is specified, then a PTR DNS record is created pointing from the IP address in the in-addr.arpa domain to the reverse FQDN.
 	ReverseFqdn *string `json:"reverseFqdn,omitempty"`
 }
+
 // IPVersion enumerates the values for ip version.
 type IPVersion string
 
@@ -970,7 +962,6 @@ const (
 	// IPv6 ...
 	IPv6 IPVersion = "IPv6"
 )
-
 
 // PublicIPAddressStatus represents the observed state of a PublicIPAddress.
 type PublicIPAddressStatus struct {
@@ -998,6 +989,7 @@ type PublicIPAddressStatus struct {
 	// ResourceGUID - The GUID of this PublicIPAddress.
 	ResourceGUID string `json:"resourceGuid,omitempty"`
 }
+
 // +kubebuilder:object:root=true
 // PublicIPAddressList contains a list of PublicIPAddress items
 type PublicIPAddressList struct {

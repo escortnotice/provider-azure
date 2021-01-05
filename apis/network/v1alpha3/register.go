@@ -53,13 +53,13 @@ var (
 	SubnetGroupVersionKind = SchemeGroupVersion.WithKind(SubnetKind)
 )
 
-
 // RouteTable type metadata.
 var (
 	RouteTableKind             = reflect.TypeOf(RouteTable{}).Name()
 	RouteTableGroupKind        = schema.GroupKind{Group: Group, Kind: RouteTableKind}.String()
 	RouteTableKindAPIVersion   = RouteTableKind + "." + SchemeGroupVersion.String()
 	RouteTableGroupVersionKind = SchemeGroupVersion.WithKind(RouteTableKind)
+)
 
 // PublicIPAddress type metadata.
 var (
@@ -84,6 +84,7 @@ var (
 	AzureFirewallKindAPIVersion   = AzureFirewallKind + "." + SchemeGroupVersion.String()
 	AzureFirewallGroupVersionKind = SchemeGroupVersion.WithKind(AzureFirewallKind)
 )
+
 // ApplicationSecurityGroup type metadata.
 var (
 	ApplicationSecurityGroupKind             = reflect.TypeOf(ApplicationSecurityGroup{}).Name()
