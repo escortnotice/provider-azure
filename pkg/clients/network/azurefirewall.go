@@ -39,6 +39,7 @@ func setHubIpAddresses(addresses *v1alpha3.HubIPAddresses) *networkmgmt.HubIPAdd
 	var hubIpAddresses = new(networkmgmt.HubIPAddresses)
 	if nil != addresses {
 		hubIpAddresses.PrivateIPAddress = azure.ToStringPtr(addresses.PrivateIPAddress)
+		hubIpAddresses.PublicIPAddresses = new([]networkmgmt.AzureFirewallPublicIPAddress)
 		for _, publicIpAddress := range addresses.PublicIPAddresses {
 			var azureFirewallPublicIPAddress = networkmgmt.AzureFirewallPublicIPAddress{}
 			azureFirewallPublicIPAddress.Address = publicIpAddress.Address

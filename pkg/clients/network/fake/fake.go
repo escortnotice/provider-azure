@@ -86,3 +86,35 @@ func (c *MockSubnetsClient) Get(ctx context.Context, resourceGroupName string, v
 func (c *MockSubnetsClient) List(ctx context.Context, resourceGroupName string, virtualNetworkName string) (result network.SubnetListResultPage, err error) {
 	return c.MockList(ctx, resourceGroupName, virtualNetworkName)
 }
+
+var _ networkapi.AzureFirewallsClientAPI = &MockAzureFirewallClient{}
+
+// MockAzureFirewallClient is a fake implementation of network.AzureFirewallClient.
+type MockAzureFirewallClient struct {
+	networkapi.AzureFirewallsClientAPI
+
+	MockCreateOrUpdate func(ctx context.Context, resourceGroupName string, azureFirewallName string, parameters network.AzureFirewall) (result network.AzureFirewallsCreateOrUpdateFuture, err error)
+	MockDelete         func(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewallsDeleteFuture, err error)
+	MockGet            func(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewall, err error)
+	MockList           func(ctx context.Context, resourceGroupName string) (result network.AzureFirewallListResultPage, err error)
+}
+
+// CreateOrUpdate calls the MockAzureFirewallClient's MockCreateOrUpdate method.
+func (c *MockAzureFirewallClient) CreateOrUpdate(ctx context.Context, resourceGroupName string, azureFirewallName string, parameters network.AzureFirewall) (result network.AzureFirewallsCreateOrUpdateFuture, err error) {
+	return c.MockCreateOrUpdate(ctx, resourceGroupName, azureFirewallName, parameters)
+}
+
+// Delete calls the MockAzureFirewallClient's MockDelete method.
+func (c *MockAzureFirewallClient) Delete(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewallsDeleteFuture, err error) {
+	return c.MockDelete(ctx, resourceGroupName, azureFirewallName)
+}
+
+// Get calls the MockAzureFirewallClient's MockGet method.
+func (c *MockAzureFirewallClient) Get(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewall, err error) {
+	return c.MockGet(ctx, resourceGroupName, azureFirewallName)
+}
+
+// List calls the MockAzureFirewallClient's MockListKeys method.
+func (c *MockAzureFirewallClient) List(ctx context.Context, resourceGroupName string) (result network.AzureFirewallListResultPage, err error) {
+	return c.MockList(ctx, resourceGroupName)
+}
