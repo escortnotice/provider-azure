@@ -383,3 +383,70 @@ func TestObserve(t *testing.T) {
 		})
 	}
 }
+
+func TestUpdate(t *testing.T) {}
+
+func TestDelete(t *testing.T) {
+	cases := []testCase{
+		{
+			name:    "NotSubnet",
+			e:       &external{client: &fake.MockAzureFirewallClient{}},
+			r:       &v1alpha3.VirtualNetwork{},
+			want:    &v1alpha3.VirtualNetwork{},
+			wantErr: errors.New(errNotAzureFirewall),
+		},
+		{
+			name: "Successful",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockDelete: func(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewallsDeleteFuture, err error) {
+					return network.AzureFirewallsDeleteFuture{}, nil
+				},
+			}},
+			r: azureFirewall(),
+			want: azureFirewall(
+				withConditions(runtimev1alpha1.Deleting()),
+			),
+		},
+		{
+			name: "SuccessfulNotFound",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockDelete: func(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewallsDeleteFuture, err error) {
+					return network.AzureFirewallsDeleteFuture{}, autorest.DetailedError{
+						StatusCode: http.StatusNotFound,
+					}
+				},
+			}},
+			r: azureFirewall(),
+			want: azureFirewall(
+				withConditions(runtimev1alpha1.Deleting()),
+			),
+		},
+		{
+			name: "Failed",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockDelete: func(ctx context.Context, resourceGroupName string, azureFirewallName string) (result network.AzureFirewallsDeleteFuture, err error) {
+					return network.AzureFirewallsDeleteFuture{}, errorBoom
+				},
+			}},
+			r: azureFirewall(),
+			want: azureFirewall(
+				withConditions(runtimev1alpha1.Deleting()),
+			),
+			wantErr: errors.Wrap(errorBoom, errDeleteAzureFirewall),
+		},
+	}
+
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			err := tc.e.Delete(ctx, tc.r)
+
+			if diff := cmp.Diff(tc.wantErr, err, test.EquateErrors()); diff != "" {
+				t.Errorf("tc.e.Delete(...): want error != got error:\n%s", diff)
+			}
+
+			if diff := cmp.Diff(tc.want, tc.r, test.EquateConditions()); diff != "" {
+				t.Errorf("r: -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
