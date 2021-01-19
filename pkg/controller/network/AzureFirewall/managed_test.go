@@ -120,7 +120,7 @@ func setNetworkRuleCollection() *[]v1alpha3.AzureFirewallNetworkRuleCollection {
 	afnrc.Etag = etag
 	afnrc.ID = "ID"
 	afnrc.Properties = v1alpha3.AzureFirewallNetworkRuleCollectionPropertiesFormat{
-		Priority:          0,
+		Priority:          100,
 		Action:            "Allow",
 		Rules:             setAzureFirewallNetworkRule(),
 		ProvisioningState: "",
@@ -142,6 +142,19 @@ func setAzureFirewallNetworkRule() []v1alpha3.AzureFirewallNetworkRule {
 	return *afrns
 }
 
+func setAzureFirewallNetworkRuleToFirewall() *[]network.AzureFirewallNetworkRule {
+	var afrns = new([]network.AzureFirewallNetworkRule)
+	var afrn = new(network.AzureFirewallNetworkRule)
+	afrn.Name = azure.ToStringPtr("Network Rule Name")
+	afrn.Description = azure.ToStringPtr("Network rule description")
+	afrn.DestinationPorts = azure.ToStringArrayPtr([]string{"80", "8081"})
+	afrn.DestinationAddresses = azure.ToStringArrayPtr([]string{"address1", "address2"})
+	afrn.SourceAddresses = azure.ToStringArrayPtr([]string{"source1", "source2"})
+	afrn.Protocols = setNetworkRuleProtocolsToAzureFirewall()
+	*afrns = append(*afrns, *afrn)
+	return afrns
+}
+
 func setNatRuleCollection() *[]v1alpha3.AzureFirewallNatRuleCollection {
 	var afnrcs = new([]v1alpha3.AzureFirewallNatRuleCollection)
 	var afnrc = new(v1alpha3.AzureFirewallNatRuleCollection)
@@ -149,13 +162,76 @@ func setNatRuleCollection() *[]v1alpha3.AzureFirewallNatRuleCollection {
 	afnrc.ID = "ID"
 	afnrc.Etag = etag
 	afnrc.Properties = v1alpha3.AzureFirewallNatRuleCollectionProperties{
-		Priority:          0,
+		Priority:          100,
 		Action:            "Allow",
 		Rules:             setAzureFirewallNATRule(),
 		ProvisioningState: "",
 	}
 	*afnrcs = append(*afnrcs, *afnrc)
 	return afnrcs
+}
+
+func setNatRuleCollectionToFirewall() *[]network.AzureFirewallNatRuleCollection {
+	var afnrcs = new([]network.AzureFirewallNatRuleCollection)
+	var afnrc = new(network.AzureFirewallNatRuleCollection)
+	afnrc.Name = azure.ToStringPtr("Nat Rule Name")
+	afnrc.ID = azure.ToStringPtr("ID")
+	afnrc.Etag = azure.ToStringPtr(etag)
+	afnrc.AzureFirewallNatRuleCollectionProperties = &network.AzureFirewallNatRuleCollectionProperties{
+		Priority:          azure.ToInt32Ptr(100),
+		Action:            setAzureFirewallNATRCAction("Allow"),
+		Rules:             setAzureFirewallNATRuleToFirewall(),
+		ProvisioningState: "",
+	}
+	*afnrcs = append(*afnrcs, *afnrc)
+	return afnrcs
+}
+
+func setNetworkRuleCollectionToFirewall() *[]network.AzureFirewallNetworkRuleCollection {
+	var afnrcs = new([]network.AzureFirewallNetworkRuleCollection)
+	var afnrc = new(network.AzureFirewallNetworkRuleCollection)
+	afnrc.Name = azure.ToStringPtr("NetworkRule Name")
+	afnrc.Etag = azure.ToStringPtr(etag)
+	afnrc.ID = azure.ToStringPtr("ID")
+	afnrc.AzureFirewallNetworkRuleCollectionPropertiesFormat = &network.AzureFirewallNetworkRuleCollectionPropertiesFormat{
+		Priority:          azure.ToInt32Ptr(100),
+		Action:            setAzureFirewallRCAction("Allow"),
+		Rules:             setAzureFirewallNetworkRuleToFirewall(),
+		ProvisioningState: "",
+	}
+	*afnrcs = append(*afnrcs, *afnrc)
+	return afnrcs
+}
+
+func setAzureFirewallNATRuleToFirewall() *[]network.AzureFirewallNatRule {
+	var afnrs = new([]network.AzureFirewallNatRule)
+	var afnr = new(network.AzureFirewallNatRule)
+	afnr.Name = azure.ToStringPtr("Nat Rule Name")
+	afnr.Description = azure.ToStringPtr("Nat Rule Description")
+	afnr.TranslatedAddress = azure.ToStringPtr("Translated Address")
+	afnr.TranslatedPort = azure.ToStringPtr("Translated Port")
+	afnr.Protocols = setNetworkRuleProtocolsToAzureFirewall()
+	afnr.SourceAddresses = azure.ToStringArrayPtr([]string{"source1", "source2"})
+	afnr.DestinationAddresses = azure.ToStringArrayPtr([]string{"destinationAddress1", "destinationAddress2"})
+	afnr.DestinationPorts = azure.ToStringArrayPtr([]string{"80", "8080", "8443"})
+	*afnrs = append(*afnrs, *afnr)
+	return afnrs
+}
+
+func setNetworkRuleProtocolsToAzureFirewall() *[]network.AzureFirewallNetworkRuleProtocol {
+	var TCP = network.AzureFirewallNetworkRuleProtocol("TCP")
+	var UDP = network.AzureFirewallNetworkRuleProtocol("UDP")
+	var afnrs = new([]network.AzureFirewallNetworkRuleProtocol)
+	*afnrs = append(*afnrs, TCP)
+	*afnrs = append(*afnrs, UDP)
+	return afnrs
+}
+
+func setAzureFirewallNATRCAction(s string) *network.AzureFirewallNatRCAction {
+	var action = network.AzureFirewallNatRCAction{
+		Type: network.AzureFirewallNatRCActionType(s),
+	}
+	return &action
 }
 
 func setAzureFirewallNATRule() []v1alpha3.AzureFirewallNatRule {
@@ -180,13 +256,59 @@ func setApplicationRuleCollection() *[]v1alpha3.AzureFirewallApplicationRuleColl
 	afar.Etag = etag
 	afar.ID = "ID"
 	afar.Properties = v1alpha3.AzureFirewallApplicationRuleCollectionPropertiesFormat{
-		Priority:          0,
+		Priority:          100,
 		Action:            "Allow",
 		Rules:             setAzureFirewallApplicationRule(),
 		ProvisioningState: "succeeded",
 	}
 	*afarc = append(*afarc, *afar)
 	return afarc
+}
+
+func setApplicationRuleCollectionToFirewall() *[]network.AzureFirewallApplicationRuleCollection {
+	var afarc = new([]network.AzureFirewallApplicationRuleCollection)
+	var afar = new(network.AzureFirewallApplicationRuleCollection)
+
+	afar.Name = azure.ToStringPtr("name")
+	afar.Etag = azure.ToStringPtr(etag)
+	afar.ID = azure.ToStringPtr("ID")
+	afar.AzureFirewallApplicationRuleCollectionPropertiesFormat = &network.AzureFirewallApplicationRuleCollectionPropertiesFormat{
+		Priority:          azure.ToInt32Ptr(100),
+		Action:            setAzureFirewallRCAction("Allow"),
+		Rules:             setAzureFirewallApplicationRuleToFirewall(),
+		ProvisioningState: "succeeded",
+	}
+	*afarc = append(*afarc, *afar)
+	return afarc
+}
+
+func setAzureFirewallRCAction(s string) *network.AzureFirewallRCAction {
+	var action = network.AzureFirewallRCAction{
+		Type: network.AzureFirewallRCActionType(s),
+	}
+	return &action
+}
+
+func setAzureFirewallApplicationRuleToFirewall() *[]network.AzureFirewallApplicationRule {
+	var afars = new([]network.AzureFirewallApplicationRule)
+	var afar = new(network.AzureFirewallApplicationRule)
+	afar.Name = azure.ToStringPtr("Rule Name")
+	afar.Description = azure.ToStringPtr("Rule Description")
+	afar.FqdnTags = azure.ToStringArrayPtr([]string{"one", "two", "three"})
+	afar.SourceAddresses = azure.ToStringArrayPtr([]string{"source1", "source2", "source3"})
+	afar.TargetFqdns = azure.ToStringArrayPtr([]string{"target1", "target2"})
+	afar.Protocols = setApplicationRuleProtocolToFirewall()
+	*afars = append(*afars, *afar)
+	return afars
+}
+
+func setApplicationRuleProtocolToFirewall() *[]network.AzureFirewallApplicationRuleProtocol {
+	var afarpcs = new([]network.AzureFirewallApplicationRuleProtocol)
+	var afarpc = new(network.AzureFirewallApplicationRuleProtocol)
+	afarpc.Port = azure.ToInt32Ptr(80)
+	afarpc.ProtocolType = "Protocol Type"
+	*afarpcs = append(*afarpcs, *afarpc)
+	return afarpcs
 }
 
 func setAzureFirewallApplicationRule() []v1alpha3.AzureFirewallApplicationRule {
@@ -205,7 +327,7 @@ func setAzureFirewallApplicationRule() []v1alpha3.AzureFirewallApplicationRule {
 func setApplicationRuleProtocol() []v1alpha3.AzureFirewallApplicationRuleProtocol {
 	var afarpcs = new([]v1alpha3.AzureFirewallApplicationRuleProtocol)
 	var afarpc = new(v1alpha3.AzureFirewallApplicationRuleProtocol)
-	afarpc.Port = 0
+	afarpc.Port = 80
 	afarpc.ProtocolType = "Protocol Type"
 	*afarpcs = append(*afarpcs, *afarpc)
 	return *afarpcs
@@ -227,6 +349,22 @@ func setIpConfigurations() *[]v1alpha3.AzureFirewallIPConfiguration {
 	return afipc
 }
 
+func setIpConfigurationsToFirewall() *[]network.AzureFirewallIPConfiguration {
+	var afipc = new([]network.AzureFirewallIPConfiguration)
+	var afip = new(network.AzureFirewallIPConfiguration)
+	afip.ID = azure.ToStringPtr("ID")
+	afip.Etag = azure.ToStringPtr(etag)
+	afip.Name = azure.ToStringPtr("name")
+	afip.AzureFirewallIPConfigurationPropertiesFormat = &network.AzureFirewallIPConfigurationPropertiesFormat{
+		PrivateIPAddress:  azure.ToStringPtr(privateIpAddress),
+		Subnet:            setSubResourceToFirewall(),
+		PublicIPAddress:   setSubResourceToFirewall(),
+		ProvisioningState: "",
+	}
+	*afipc = append(*afipc, *afip)
+	return afipc
+}
+
 func setHubIPAddresses() *v1alpha3.HubIPAddresses {
 	var res = new(v1alpha3.HubIPAddresses)
 	res.PrivateIPAddress = privateIpAddress
@@ -238,16 +376,33 @@ func setHubIPAddresses() *v1alpha3.HubIPAddresses {
 	return res
 }
 
+func setHubIPAddressesToFirewall() *network.HubIPAddresses {
+	var res = new(network.HubIPAddresses)
+	res.PrivateIPAddress = azure.ToStringPtr(privateIpAddress)
+	var publicIpAddress = new([]network.AzureFirewallPublicIPAddress)
+	var pIAdd = new(network.AzureFirewallPublicIPAddress)
+	pIAdd.Address = azure.ToStringPtr(ipAddress)
+	*publicIpAddress = append(*publicIpAddress, *pIAdd)
+	res.PublicIPAddresses = publicIpAddress
+	return res
+}
+
 func setSubResource() *v1alpha3.SubResource {
 	var res = new(v1alpha3.SubResource)
 	res.ID = id
 	return res
 }
 
+func setSubResourceToFirewall() *network.SubResource {
+	var res = new(network.SubResource)
+	res.ID = azure.ToStringPtr(id)
+	return res
+}
+
 func TestCreate(t *testing.T) {
 	cases := []testCase{
 		{
-			name:    "NotFirewall",
+			name:    "NotAzureFireWall",
 			e:       &external{client: &fake.MockAzureFirewallClient{}},
 			r:       &v1alpha3.VirtualNetwork{},
 			want:    &v1alpha3.VirtualNetwork{},
@@ -384,12 +539,117 @@ func TestObserve(t *testing.T) {
 	}
 }
 
-func TestUpdate(t *testing.T) {}
+func TestUpdate(t *testing.T) {
+	cases := []testCase{
+		{
+			name:    "NotAzureFireWall",
+			e:       &external{client: &fake.MockAzureFirewallClient{}},
+			r:       &v1alpha3.VirtualNetwork{},
+			want:    &v1alpha3.VirtualNetwork{},
+			wantErr: errors.New(errNotAzureFirewall),
+		},
+		{
+			name: "SuccessfulDoesNotNeedUpdate",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockGet: func(_ context.Context, _ string, _ string) (result network.AzureFirewall, err error) {
+					return network.AzureFirewall{
+						AzureFirewallPropertiesFormat: &network.AzureFirewallPropertiesFormat{
+							ApplicationRuleCollections: setApplicationRuleCollectionToFirewall(),
+							NatRuleCollections:         setNatRuleCollectionToFirewall(),
+							NetworkRuleCollections:     setNetworkRuleCollectionToFirewall(),
+							IPConfigurations:           setIpConfigurationsToFirewall(),
+							ProvisioningState:          " ",
+							ThreatIntelMode:            "Alert",
+							VirtualHub:                 setSubResourceToFirewall(),
+							FirewallPolicy:             setSubResourceToFirewall(),
+							HubIPAddresses:             setHubIPAddressesToFirewall(),
+						},
+						Zones:    azure.ToStringArrayPtr(zones),
+						Etag:     azure.ToStringPtr(etag),
+						ID:       azure.ToStringPtr(string(uid)),
+						Name:     azure.ToStringPtr(name),
+						Type:     azure.ToStringPtr(firewallType),
+						Location: azure.ToStringPtr(location),
+						Tags:     azure.ToStringPtrMap(tags),
+					}, nil
+				},
+			}},
+			r:       azureFirewall(),
+			want:    azureFirewall(),
+			wantErr: nil,
+		},
+		{
+			name: "SuccessfulNeedsUpdate",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockGet: func(_ context.Context, _ string, _ string) (result network.AzureFirewall, err error) {
+					return network.AzureFirewall{
+						AzureFirewallPropertiesFormat: nil,
+						Zones:                         azure.ToStringArrayPtr(zones),
+						Etag:                          azure.ToStringPtr(etag),
+						ID:                            azure.ToStringPtr(string(uid)),
+						Name:                          azure.ToStringPtr(name),
+						Type:                          azure.ToStringPtr(firewallType),
+						Location:                      azure.ToStringPtr("new location"),
+						Tags:                          azure.ToStringPtrMap(tags),
+					}, nil
+				},
+				MockCreateOrUpdate: func(_ context.Context, _ string, _ string, _ network.AzureFirewall) (network.AzureFirewallsCreateOrUpdateFuture, error) {
+					return network.AzureFirewallsCreateOrUpdateFuture{}, nil
+				},
+			}},
+			r:    azureFirewall(),
+			want: azureFirewall(),
+		},
+		{
+			name: "UnsuccessfulGet",
+			e: &external{client: &fake.MockAzureFirewallClient{
+				MockGet: func(_ context.Context, _ string, _ string) (result network.AzureFirewall, err error) {
+					return network.AzureFirewall{
+						AzureFirewallPropertiesFormat: &network.AzureFirewallPropertiesFormat{
+							ApplicationRuleCollections: setApplicationRuleCollectionToFirewall(),
+							NatRuleCollections:         setNatRuleCollectionToFirewall(),
+							NetworkRuleCollections:     setNetworkRuleCollectionToFirewall(),
+							IPConfigurations:           setIpConfigurationsToFirewall(),
+							ProvisioningState:          " ",
+							ThreatIntelMode:            "Alert",
+							VirtualHub:                 setSubResourceToFirewall(),
+							FirewallPolicy:             setSubResourceToFirewall(),
+							HubIPAddresses:             setHubIPAddressesToFirewall(),
+						},
+						Zones:    azure.ToStringArrayPtr(zones),
+						Etag:     azure.ToStringPtr(etag),
+						ID:       azure.ToStringPtr(string(uid)),
+						Name:     azure.ToStringPtr(name),
+						Type:     azure.ToStringPtr(firewallType),
+						Location: azure.ToStringPtr("new location"),
+						Tags:     azure.ToStringPtrMap(tags),
+					}, errorBoom
+				},
+			}},
+			r:       azureFirewall(),
+			want:    azureFirewall(),
+			wantErr: errors.Wrap(errorBoom, errGetAzureFirewall),
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			_, err := tc.e.Update(ctx, tc.r)
+
+			if diff := cmp.Diff(tc.wantErr, err, test.EquateErrors()); diff != "" {
+				t.Errorf("tc.e.Update(...): want error != got error:\n%s", diff)
+			}
+
+			if diff := cmp.Diff(tc.want, tc.r, test.EquateConditions()); diff != "" {
+				t.Errorf("r: -want, +got:\n%s", diff)
+			}
+		})
+	}
+}
 
 func TestDelete(t *testing.T) {
 	cases := []testCase{
 		{
-			name:    "NotSubnet",
+			name:    "NotAzureFireWall",
 			e:       &external{client: &fake.MockAzureFirewallClient{}},
 			r:       &v1alpha3.VirtualNetwork{},
 			want:    &v1alpha3.VirtualNetwork{},
